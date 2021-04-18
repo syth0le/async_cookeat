@@ -1,0 +1,742 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: cookeat
+  description: This api for cookeat app.
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: cookeat@cookeat.com (мыло)
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+servers:
+  - url: http://185.20.226.71
+  - url: http://api.cookeat.com/v1
+    description: Main (production) server
+  - url: http://cookeat-api.com
+    description: Internal staging server for testing
+
+tags:
+#  - name: admins
+#    description: Secured Admin-only calls
+#  - name: developers
+#    description: Operations available to regular developers
+  - name: recipes
+    description: Recipes operations
+  - name: utility
+    description: Utility operations (categories, ingredients, etc)
+  - name: creators
+    description: Creators operations (description of us)
+  - name: auth
+    description: Auth in app operations
+  - name: ml
+    description: Machine Learning operations
+  - name: meal plan
+    description: Operations available to control meal plan
+
+paths:
+  /recipes:
+    description: 'Import recipes'
+    get:
+      summary: Returns recipes.
+      description: 'Get recipes info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesListGetResponse'
+        '404':
+          description: 'Not found'
+    post:
+      description: 'Import recipes'
+      tags:
+        - recipes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipesPostRequest'
+      summary: Adds recipes.
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesIds'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  validation_error:
+                    $ref: '#/components/schemas/RecipesIdsError'
+                required:
+                  - validation_error
+
+  /recipes/{recipe_id}:
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: 'Get recipe info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeGetResponse'
+        '404':
+          description: 'Not found'
+
+    patch:
+      description: 'Update recipe by id'
+      tags:
+        - recipes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeUpdateRequest'
+      responses:
+        '200':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeItem'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found'
+
+    delete:
+      description: 'Delete recipe info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesIds'
+        '404':
+          description: 'Not found'
+
+  /recipes/{title}:
+    parameters:
+      - in: path
+        name: title
+        required: true
+        schema:
+          type: string
+    get:
+      description: 'Get recipe info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeGetResponse'
+        '404':
+          description: 'Not found'
+
+    patch:
+      description: 'Update recipe by id'
+      tags:
+        - recipes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeUpdateRequest'
+      responses:
+        '200':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeItem'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found'
+
+    delete:
+      description: 'Delete recipe info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesIds'
+        '404':
+          description: 'Not found'
+
+  /categories:
+    description: 'Import categories'
+    get:
+      summary: Returns categories.
+      description: 'Get categories list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /ingredients:
+    description: 'Import ingredients'
+    get:
+      summary: Returns ingredients.
+      description: 'Get ingredients list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientsListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /nutritions:
+    description: 'Import nutritions'
+    get:
+      summary: Returns nutritions.
+      description: 'Get nutritions list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionsListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /cuisines:
+    description: 'Import cuisines'
+    get:
+      summary: Returns cuisines.
+      description: 'Get cuisines list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuisinesListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /creators:
+    get:
+      summary: Returns creators.
+      description: 'Get creators list'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorsGetResponse'
+        '404':
+          description: 'Not found'
+
+  /creators/{creator_id}:
+    parameters:
+      - in: path
+        name: creator_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: 'Get creator info by id'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorGetResponse'
+        '404':
+          description: 'Not found'
+
+    patch:
+      description: 'Update creator by id'
+      tags:
+        - creators
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatorUpdateRequest'
+      responses:
+        '200':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorItem'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found'
+
+    delete:
+      description: 'Delete creator info'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorsIds'
+        '404':
+          description: 'Not found'
+
+  /recipes/top:
+    description: 'Import recipes'
+    get:
+      summary: Returns top recipes.
+      description: 'Get top recipes info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopRecipesGetResponse'
+        '404':
+          description: 'Not found'
+    post:
+      description: 'Import top recipes'
+      tags:
+        - recipes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopRecipesPostRequest'
+      summary: Adds recipes.
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopRecipesIds'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  validation_error:
+                    $ref: '#/components/schemas/TopRecipesIdsError'
+                required:
+                  - validation_error
+    delete:
+      summary: Delete recipe.
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'Deleted'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  validation_error:
+                    $ref: '#/components/schemas/TopRecipesIdsError'
+                required:
+                  - validation_error
+    patch:
+      description: 'Update courier by id'
+      tags:
+        - recipes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopRecipesUpdateRequest'
+      responses:
+        '200':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopRecipes'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found'
+
+  /recipes/random:
+    get:
+      summary: Returns random recipes.
+      description: 'Get random recipes info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/similar:
+    description: Find recipes which are similar to the given one.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: 'Get similar recipes info by id '
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipesListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/autocomplete:
+    description: Autocomplete a partial input to suggest possible recipe names
+    get:
+      summary: Returns random recipes.
+      description: 'Get random recipes info'
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchRecipesGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/tasteWidget:
+    description: Get a recipe's taste. The tastes supported are sweet, salty, sour, bitter, savory, and fatty. These tastes are between 0 and 100 while the spiciness value is in scoville on an open scale of 0 and above.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's taste info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TasteGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/equipmentWidget:
+    description: Get a recipe's equipment list.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's equipment info by id"
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EquipmentGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/ingredientWidget:
+    description: Get a recipe's ingredient list.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's ingredients info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/nutritionWidget:
+    description: Get a recipe's nutrition widget data.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's nutrition info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/stepsWidget:
+    description: (steps) Get an analyzed breakdown of a recipe's instructions. Each step is enriched with the ingredients and equipment required.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's cooking instructions info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StepsGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/summary:
+    description: (cделать с фото для того чтобы афигенно вошло в список) Automatically generate a short description that summarizes key information about the recipe.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's summary info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryGetResponse'
+        '404':
+          description: 'Not found'
+
+  /recipes/{recipe_id}/cuisine:
+    description: Classify the recipe's cuisine.
+    parameters:
+      - in: path
+        name: recipe_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: "Get recipe's cuisine info by id "
+      tags:
+        - recipes
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuisineGetResponse'
+        '404':
+          description: 'Not found'
+
+
+
+
+  /food/ingredients/search:
+    description: Search for simple whole foods (e.g. fruits, vegetables, nuts, grains, meat, fish, dairy etc.).
+
+    get:
+      summary: Returns recipes.
+      tags:
+        - utility
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid
+
+  /food/ingredients/{id}/substitutes:
+    description: Search for substitutes for a given ingredient.
+
+    get:
+      summary: Returns recipes.
+      tags:
+        - utility
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid
+
+  /food/products/search:
+    description: Search packaged food products, such as frozen pizza or Greek yogurt.
+    get:
+      summary: Returns recipes.
+      tags:
+        - utility
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid
+
+  /food/products/{id}:
+    description: Use a product id to get full information about a product, such as ingredients, nutrition, etc. The nutritional information is per serving.
+    get:
+      summary: Returns recipes.
+      tags:
+        - utility
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid
+
+  /food/products/upc/{upc}/comparable:
+    description: Find comparable products to the given one. здесь штрихкод поменять потом
+    get:
+      summary: Returns recipes.
+      tags:
+        - utility
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid
+
+
+
+#  остальное с планами на питание и нутришион (meat plan) https://spoonacular.com/food-api/docs#Get-Meal-Plan-Day
+  
+# отдельно по добавлению всякого к рецепту
+
+#/cuisines
+#/categories
+#/ingredients
+#/nutritions
+#/summary
+
+
+#components:
+components:
+  schemas:
+    RecipesListGetResponse:
+    RecipesPostRequest:
+    RecipesIds:
+    RecipesIdsError:
+    RecipeUpdateRequest:
+    RecipeItem:
+    RecipeGetResponse:
+    CategoriesListGetResponse:
+    IngredientsListGetResponse:
+    CreatorGetResponse:
+    CreatorUpdateRequest:
+    CreatorItem:
+    CreatorsIds:
+    CreatorsGetResponse:
+    TopRecipesGetResponse:
+    TopRecipesPostRequest:
+    TopRecipesIdsError:
+    TopRecipesIds:
+    TopRecipes:
+    TopRecipesUpdateRequest:
+    SearchRecipesGetResponse:
+    TasteGetResponse:
+    EquipmentGetResponse:
+    NutritionGetResponse:
+    IngredientGetResponse:
+    StepsGetResponse:
+    SummaryGetResponse:
+    CuisineGetResponse:
+    NutritionsListGetResponse:
+    CuisinesListGetResponse:
+
