@@ -194,146 +194,6 @@ paths:
         '404':
           description: 'Not found'
 
-  /categories:
-    description: 'Import categories'
-    get:
-      summary: Returns categories.
-      description: 'Get categories list'
-      tags:
-        - utility
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CategoriesListGetResponse'
-        '404':
-          description: 'Not found'
-
-  /ingredients:
-    description: 'Import ingredients'
-    get:
-      summary: Returns ingredients.
-      description: 'Get ingredients list'
-      tags:
-        - utility
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IngredientsListGetResponse'
-        '404':
-          description: 'Not found'
-
-  /nutritions:
-    description: 'Import nutritions'
-    get:
-      summary: Returns nutritions.
-      description: 'Get nutritions list'
-      tags:
-        - utility
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NutritionsListGetResponse'
-        '404':
-          description: 'Not found'
-
-  /cuisines:
-    description: 'Import cuisines'
-    get:
-      summary: Returns cuisines.
-      description: 'Get cuisines list'
-      tags:
-        - utility
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CuisinesListGetResponse'
-        '404':
-          description: 'Not found'
-
-  /creators:
-    get:
-      summary: Returns creators.
-      description: 'Get creators list'
-      tags:
-        - creators
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreatorsGetResponse'
-        '404':
-          description: 'Not found'
-
-  /creators/{creator_id}:
-    parameters:
-      - in: path
-        name: creator_id
-        required: true
-        schema:
-          type: integer
-    get:
-      description: 'Get creator info by id'
-      tags:
-        - creators
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreatorGetResponse'
-        '404':
-          description: 'Not found'
-
-    patch:
-      description: 'Update creator by id'
-      tags:
-        - creators
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatorUpdateRequest'
-      responses:
-        '200':
-          description: 'Created'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreatorItem'
-        '400':
-          description: 'Bad request'
-        '404':
-          description: 'Not found'
-
-    delete:
-      description: 'Delete creator info'
-      tags:
-        - creators
-      responses:
-        '200':
-          description: 'OK'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreatorsIds'
-        '404':
-          description: 'Not found'
-
   /recipes/top:
     description: 'Import recipes'
     get:
@@ -631,6 +491,74 @@ paths:
 
 
 
+  /categories:
+    description: 'Import categories'
+    get:
+      summary: Returns categories.
+      description: 'Get categories list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /ingredients:
+    description: 'Import ingredients'
+    get:
+      summary: Returns ingredients.
+      description: 'Get ingredients list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngredientsListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /nutritions:
+    description: 'Import nutritions'
+    get:
+      summary: Returns nutritions.
+      description: 'Get nutritions list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionsListGetResponse'
+        '404':
+          description: 'Not found'
+
+  /cuisines:
+    description: 'Import cuisines'
+    get:
+      summary: Returns cuisines.
+      description: 'Get cuisines list'
+      tags:
+        - utility
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuisinesListGetResponse'
+        '404':
+          description: 'Not found'
+
   /food/ingredients/search:
     description: Search for simple whole foods (e.g. fruits, vegetables, nuts, grains, meat, fish, dairy etc.).
 
@@ -695,6 +623,130 @@ paths:
 
 
 
+
+  /creators:
+    get:
+      summary: Returns creators.
+      description: 'Get creators list'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorsGetResponse'
+        '404':
+          description: 'Not found'
+    post:
+      description: 'Import creators'
+      tags:
+        - creators
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatorsPostRequest'
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorsIds'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  validation_error:
+                    $ref: '#/components/schemas/CreatorsIdsAP'
+                required:
+                  - validation_error
+
+  /creators/{creator_id}:
+    parameters:
+      - in: path
+        name: creator_id
+        required: true
+        schema:
+          type: integer
+    get:
+      description: 'Get creator info by id'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorGetResponse'
+        '404':
+          description: 'Not found'
+
+    patch:
+      description: 'Update creator by id'
+      tags:
+        - creators
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatorUpdateRequest'
+      responses:
+        '200':
+          description: 'Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorItem'
+        '400':
+          description: 'Bad request'
+        '404':
+          description: 'Not found'
+
+#    post:
+#      description: 'Post creator by id'
+#      tags:
+#        - creators
+#      requestBody:
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/CreatorPostRequest'
+#      responses:
+#        '200':
+#          description: 'Created'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/CreatorItem'
+#        '400':
+#          description: 'Bad request'
+#        '404':
+#          description: 'Not found'
+
+    delete:
+      description: 'Delete creator info'
+      tags:
+        - creators
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatorsIds'
+        '404':
+          description: 'Not found'
+
+
+
 #  остальное с планами на питание и нутришион (meat plan) https://spoonacular.com/food-api/docs#Get-Meal-Plan-Day
   
 # отдельно по добавлению всякого к рецепту
@@ -703,10 +755,8 @@ paths:
 #/categories
 #/ingredients
 #/nutritions
-#/summary
+#/summary - заложить поварешку сюда именно)
 
-
-#components:
 components:
   schemas:
     RecipesListGetResponse:
@@ -718,11 +768,6 @@ components:
     RecipeGetResponse:
     CategoriesListGetResponse:
     IngredientsListGetResponse:
-    CreatorGetResponse:
-    CreatorUpdateRequest:
-    CreatorItem:
-    CreatorsIds:
-    CreatorsGetResponse:
     TopRecipesGetResponse:
     TopRecipesPostRequest:
     TopRecipesIdsError:
@@ -740,3 +785,106 @@ components:
     NutritionsListGetResponse:
     CuisinesListGetResponse:
 
+    CreatorGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        creator_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          description: url view of image
+        description:
+          type: string
+      required:
+        -creator_id
+        -name
+        -photo
+        -description
+#        - smth else
+    CreatorUpdateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        photo:
+          type: string
+          format: binary
+        description:
+          type: string
+      required:
+        -name
+        -photo
+        -description
+    CreatorItem:
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+          description: url view of image
+        description:
+          type: string
+      required:
+        -name
+        -photo
+        -description
+    CreatorsIds:
+      type: object
+      additionalProperties: false
+      properties:
+        couriers:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              creator_id:
+                type: integer
+            required:
+              - id
+      required:
+        - creators
+    CreatorsIdsAP:
+      type: object
+      additionalProperties: true
+      properties:
+        couriers:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              creator_id:
+                type: integer
+            required:
+              - id
+      required:
+        - creators
+    CreatorsGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatorItem'
+      required:
+        - data
+    CreatorsPostRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreatorItem'
+      required:
+        - data
+#    CreatorPostRequest:
+#      тоже самое как и с апдейтом
