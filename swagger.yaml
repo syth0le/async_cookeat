@@ -766,8 +766,6 @@ components:
     RecipeUpdateRequest:
     RecipeItem:
     RecipeGetResponse:
-    CategoriesListGetResponse:
-    IngredientsListGetResponse:
     TopRecipesGetResponse:
     TopRecipesPostRequest:
     TopRecipesIdsError:
@@ -775,15 +773,290 @@ components:
     TopRecipes:
     TopRecipesUpdateRequest:
     SearchRecipesGetResponse:
-    TasteGetResponse:
-    EquipmentGetResponse:
-    NutritionGetResponse:
-    IngredientGetResponse:
-    StepsGetResponse:
-    SummaryGetResponse:
-    CuisineGetResponse:
+
+    CategoriesListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryItem'
+      required:
+        - data
+
+    CategoryItem:
+      type: object
+      additionalProperties: false
+      properties:
+        category_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+        description:
+          type: string
+      required:
+        - ingredient_id
+        - name
+        - image
+        - description
+
+    IngredientsListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngredientItem'
+      required:
+        - data
+
+    IngredientItem:
+      type: object
+      additionalProperties: false
+      properties:
+        ingredient_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+        nutrition:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionGetResponse'
+        possible_units:
+          type: array
+          items:
+            type: string
+        category_path:
+          type: array
+          items:
+            type: string
+      required:
+        - ingredient_id
+        - name
+        - image
+        - nutrition
+        - possible_units
+        - category_path
+#properties:
+#        weightPerServing:
+#        caloricBreakdown:
+#      пример______________--------
+#          "properties": [
+#          {
+#            "name": "Glycemic Index",
+#            "amount": 58.67,
+#            "unit": ""
+#          },
+#          {
+#            "name": "Glycemic Load",
+#            "amount": 62.23,
+#            "unit": ""
+#          }
+#          ],
+#          "caloricBreakdown": {
+#            "percentProtein": 3.88,
+#            "percentFat": 1.94,
+#            "percentCarbs": 94.18
+#          },
+#          "weightPerServing": {
+#            "amount": 905,
+#            "unit": "g"
+#          }
+
     NutritionsListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionItem'
+      required:
+        - data
+
+    NutritionItem:
+      type: object
+      additionalProperties: false
+      properties:
+        nutrition_id:
+          type: integer
+        name:
+          type: string
+        influence:
+          type: string
+          enum:
+            - bad
+            - neutral
+            - good
+      required:
+        - nutrition_id
+        - name
+        - influence
+
     CuisinesListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CuisineItem'
+      required:
+        - data
+
+    CuisineItem:
+      type: object
+      additionalProperties: false
+      properties:
+        cuisine_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - cuisine_id
+        - name
+        - description
+
+    TasteWidgetGetResponse:
+    EquipmentWidgetGetResponse:
+    NutritionWidgetGetResponse:
+    IngredientWidgetGetResponse:
+    StepsGetWidgetResponse:
+    SummaryGetWidgetResponse:
+    CuisineGetWidgetResponse:
+
+    TasteGetResponse:
+
+    EquipmentGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentItem'
+      required:
+        - equipment
+
+    EquipmentItem:
+      type: object
+      additionalProperties: false
+      properties:
+        equipment_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+      required:
+        - equipment_id
+        - name
+        - image
+
+
+    NutritionGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        nutrition_id:
+          type: integer
+        name:
+          type: string
+        percentOfDailyNeeds:
+          type: number
+        amount:
+          type: string
+        influence:
+          type: string
+          enum:
+            - bad
+            - neutral
+            - good
+      required:
+        - nutrition_id
+        - name
+        - influence
+        - amount
+        - percentOfDailyNeeds
+
+    IngredientGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        ingredient_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+        nutrition:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionGetResponse'
+        possible_units:
+          type: array
+          items:
+            type: string
+      required:
+        - ingredient_id
+        - name
+        - image
+        - nutrition
+        - possible_units
+
+    StepsGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/StepsItem'
+        hints:
+          type: string
+      required:
+        - steps
+        - hints
+
+    StepsItem:
+      type: object
+      additionalProperties: false
+      properties:
+        step_id:
+          type: integer
+        name:
+          type: string
+        text:
+          type: string
+      required:
+        - cuisine_id
+        - name
+        - text
+
+    SummaryGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/CuisineItem'
+      required:
+        - summary
+
+    CuisineGetResponse:
 
     CreatorGetResponse:
       type: object
