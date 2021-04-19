@@ -664,7 +664,7 @@ paths:
                 additionalProperties: false
                 properties:
                   validation_error:
-                    $ref: '#/components/schemas/CreatorsIdsAP'
+                    $ref: '#/components/schemas/CreatorsIdsError'
                 required:
                   - validation_error
 
@@ -762,7 +762,39 @@ components:
     RecipesListGetResponse:
     RecipesPostRequest:
     RecipesIds:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      required:
+        - recipes
+
     RecipesIdsError:
+      type: object
+      additionalProperties: true
+      properties:
+        recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      required:
+        - recipes
+
     RecipeUpdateRequest:
     RecipeItem:
     RecipeGetResponse:
@@ -936,6 +968,31 @@ components:
     CuisineGetWidgetResponse:
 
     TasteGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        sweetness:
+          type: number
+        saltiness:
+          type: number
+        sourness:
+          type: number
+        bitterness:
+          type: number
+        savoriness:
+          type: number
+        fattiness:
+          type: number
+        spiciness:
+          type: number
+      required:
+        - sweetness
+        - saltiness
+        - sourness
+        - bitterness
+        - savoriness
+        - fattiness
+        - spiciness
 
     EquipmentGetResponse:
       type: object
@@ -1049,14 +1106,44 @@ components:
       type: object
       additionalProperties: false
       properties:
+        cooker:
+          type: string
+          description: поварешка ( хз как сделать наверное enum)
         summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryItem'
+      required:
+        - summary
+
+    SummaryItem:
+      type: object
+      additionalProperties: false
+      properties:
+        summary_id:
+          type: integer
+        name:
+          type: string
+        measure:
+          type: string
+        quantity:
+          type: integer
+      required:
+        - summary_id
+        - name
+        - measure
+        - quantity
+
+    CuisineGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        cuisine:
           type: array
           items:
             $ref: '#/components/schemas/CuisineItem'
       required:
-        - summary
-
-    CuisineGetResponse:
+        - cuisine
 
     CreatorGetResponse:
       type: object
@@ -1123,7 +1210,7 @@ components:
               - id
       required:
         - creators
-    CreatorsIdsAP:
+    CreatorsIdsError:
       type: object
       additionalProperties: true
       properties:
