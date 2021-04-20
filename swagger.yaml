@@ -760,7 +760,27 @@ paths:
 components:
   schemas:
     RecipesListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeItem'
+      required:
+        - recipes
+
     RecipesPostRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeItem'
+      required:
+        - recipes
+
     RecipesIds:
       type: object
       additionalProperties: false
@@ -796,15 +816,172 @@ components:
         - recipes
 
     RecipeUpdateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeItem'
+      required:
+        - recipes
+
     RecipeItem:
+      # уменьшить ее и вообще решить куда отдается полный запрос
+      type: object
+      additionalProperties: false
+      properties:
+        recipe_id:
+          type: integer
+        name:
+          type: string
+        date:
+          type: string
+          format: 'date-time'
+        image:
+          type: string
+          format: binary
+        category:
+          $ref: '#/components/schemas/CategoryItem'
+        cuisine:
+          $ref: '#/components/schemas/CuisineItem'
+        summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryItem'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/StepsItem'
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngredientItem'
+        nutrition:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionItem'
+        taste:
+          $ref: '#/components/schemas/TasteGetResponse'
+      required:
+        - recipe_id
+        - name
+        - date
+        - image
+        - category
+        - cuisine
+        - summary
+        - steps
+        - ingredients
+        - nutrition
+        - taste
+
     RecipeGetResponse:
+      # добавить еще одну схему для meal plan  https://spoonacular.com/food-api/docs#Get-Recipe-Information
+      type: object
+      additionalProperties: false
+      properties:
+        recipe_id:
+          type: integer
+        name:
+          type: string
+        date:
+          type: string
+          format: 'date-time'
+        image:
+          type: string
+          format: binary
+        category:
+          $ref: '#/components/schemas/CategoryItem'
+        cuisine:
+          $ref: '#/components/schemas/CuisineItem'
+        summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryItem'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/StepsItem'
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngredientItem'
+        nutrition:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionItem'
+        taste:
+          $ref: '#/components/schemas/TasteGetResponse'
+      required:
+        - recipe_id
+        - name
+        - date
+        - image
+        - category
+        - cuisine
+        - summary
+        - steps
+        - ingredients
+        - nutrition
+        - taste
+
     TopRecipesGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecipeItem'
+      required:
+        - recipes
+
     TopRecipesPostRequest:
+
     TopRecipesIdsError:
+      type: object
+      additionalProperties: true
+      properties:
+        recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      required:
+        - recipes
+
     TopRecipesIds:
+      type: object
+      additionalProperties: false
+      properties:
+        top_recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      required:
+        - top_recipes
+
     TopRecipes:
+    #PATCH govno peredelat'
     TopRecipesUpdateRequest:
+
+
     SearchRecipesGetResponse:
+    SearchRecipeItem:
+    SearchIngredientItem:
+    SearchCategoryItem:
 
     CategoriesListGetResponse:
       type: object
