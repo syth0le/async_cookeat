@@ -759,75 +759,31 @@ paths:
 
 components:
   schemas:
-    RecipesListGetResponse:
+
+    # Get method recipes:
+    RecipesLongListGetResponse:
       type: object
       additionalProperties: false
       properties:
         recipes:
           type: array
           items:
-            $ref: '#/components/schemas/RecipeItem'
+            $ref: '#/components/schemas/RecipeLongItem'
       required:
         - recipes
-
-    RecipesPostRequest:
+    
+    RecipesShortListGetResponse:
       type: object
       additionalProperties: false
       properties:
         recipes:
           type: array
           items:
-            $ref: '#/components/schemas/RecipeItem'
+            $ref: '#/components/schemas/RecipeShortItem'
       required:
         - recipes
 
-    RecipesIds:
-      type: object
-      additionalProperties: false
-      properties:
-        recipes:
-          type: array
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              id:
-                type: integer
-            required:
-              - id
-      required:
-        - recipes
-
-    RecipesIdsError:
-      type: object
-      additionalProperties: true
-      properties:
-        recipes:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-            properties:
-              id:
-                type: integer
-            required:
-              - id
-      required:
-        - recipes
-
-    RecipeUpdateRequest:
-      type: object
-      additionalProperties: false
-      properties:
-        recipes:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecipeItem'
-      required:
-        - recipes
-
-    RecipeItem:
-      # уменьшить ее и вообще решить куда отдается полный запрос
+    RecipeLongItem:
       type: object
       additionalProperties: false
       properties:
@@ -842,27 +798,29 @@ components:
           type: string
           format: binary
         category:
-          $ref: '#/components/schemas/CategoryItem'
+          $ref: '#/components/schemas/CategoryGetResponse'
         cuisine:
-          $ref: '#/components/schemas/CuisineItem'
+          $ref: '#/components/schemas/CuisineGetResponse'
         summary:
           type: array
           items:
-            $ref: '#/components/schemas/SummaryItem'
+            $ref: '#/components/schemas/SummaryGetResponse'
         steps:
           type: array
           items:
-            $ref: '#/components/schemas/StepsItem'
+            $ref: '#/components/schemas/StepsGetResponse'
         ingredients:
           type: array
           items:
-            $ref: '#/components/schemas/IngredientItem'
+            $ref: '#/components/schemas/IngredientGetResponse'
         nutrition:
           type: array
           items:
-            $ref: '#/components/schemas/NutritionItem'
+            $ref: '#/components/schemas/NutritionGetResponse'
         taste:
           $ref: '#/components/schemas/TasteGetResponse'
+        equipment:
+          $ref: '#/components/schemas/EquipmentGetResponse'
       required:
         - recipe_id
         - name
@@ -875,6 +833,35 @@ components:
         - ingredients
         - nutrition
         - taste
+        - equipment
+
+    RecipeShortItem:
+      description: возможно есть смысл чтобы убрать все доп шемы
+      type: object
+      additionalProperties: false
+      properties:
+        recipe_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+        category:
+          $ref: '#/components/schemas/CategoryGetResponse'
+        cuisine:
+          $ref: '#/components/schemas/CuisineGetResponse'
+        summary:
+          type: array
+          items:
+            $ref: '#/components/schemas/SummaryGetResponse'
+      required:
+        - recipe_id
+        - name
+        - image
+        - category
+        - cuisine
+        - summary
 
     RecipeGetResponse:
       # добавить еще одну схему для meal plan  https://spoonacular.com/food-api/docs#Get-Recipe-Information
@@ -933,11 +920,65 @@ components:
         recipes:
           type: array
           items:
-            $ref: '#/components/schemas/RecipeItem'
+            $ref: '#/components/schemas/RecipeShortItem'
+      required:
+        - recipes
+    
+    # Post method recipes:
+    # RecipesPostRequest:
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     recipes:
+    #       type: array
+    #       items:
+    #         $ref: '#/components/schemas/RecipeItem'
+    #   required:
+    #     - recipes
+
+    # TopRecipesPostRequest:
+
+    # Patch method recipes:
+    # RecipeUpdateRequest:
+    # TopRecipesUpdateRequest:
+
+
+
+
+    # Ids responses recipes:
+    RecipesIds:
+      type: object
+      additionalProperties: false
+      properties:
+        recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: integer
+            required:
+              - id
       required:
         - recipes
 
-    TopRecipesPostRequest:
+    RecipesIdsError:
+      type: object
+      additionalProperties: true
+      properties:
+        recipes:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              id:
+                type: integer
+            required:
+              - id
+      required:
+        - recipes
 
     TopRecipesIdsError:
       type: object
@@ -973,16 +1014,15 @@ components:
       required:
         - top_recipes
 
-    TopRecipes:
-    #PATCH govno peredelat'
-    TopRecipesUpdateRequest:
+
+    # SearchRecipesGetResponse:
+    # SearchRecipeItem:
+    # SearchIngredientItem:
+    # SearchCategoryItem:
 
 
-    SearchRecipesGetResponse:
-    SearchRecipeItem:
-    SearchIngredientItem:
-    SearchCategoryItem:
-
+    # Utility Get Responses:
+    # переделать сие чудо в нормальное состояние в запросе
     CategoriesListGetResponse:
       type: object
       additionalProperties: false
@@ -994,6 +1034,40 @@ components:
       required:
         - data
 
+    IngredientsListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngredientItem'
+      required:
+        - data
+
+    NutritionsListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionItem'
+      required:
+        - data
+
+    CuisinesListGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CuisineItem'
+      required:
+        - data
+
+    # Utility Items:
     CategoryItem:
       type: object
       additionalProperties: false
@@ -1012,18 +1086,7 @@ components:
         - name
         - image
         - description
-
-    IngredientsListGetResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IngredientItem'
-      required:
-        - data
-
+    
     IngredientItem:
       type: object
       additionalProperties: false
@@ -1047,6 +1110,31 @@ components:
           type: array
           items:
             type: string
+        # properties:
+        #     weightPerServing:
+        #     caloricBreakdown:
+        #   пример______________--------
+        #       "properties": [
+        #       {
+        #         "name": "Glycemic Index",
+        #         "amount": 58.67,
+        #         "unit": ""
+        #       },
+        #       {
+        #         "name": "Glycemic Load",
+        #         "amount": 62.23,
+        #         "unit": ""
+        #       }
+        #       ],
+        #       "caloricBreakdown": {
+        #         "percentProtein": 3.88,
+        #         "percentFat": 1.94,
+        #         "percentCarbs": 94.18
+        #       },
+        #       "weightPerServing": {
+        #         "amount": 905,
+        #         "unit": "g"
+        #       }
       required:
         - ingredient_id
         - name
@@ -1054,43 +1142,7 @@ components:
         - nutrition
         - possible_units
         - category_path
-#properties:
-#        weightPerServing:
-#        caloricBreakdown:
-#      пример______________--------
-#          "properties": [
-#          {
-#            "name": "Glycemic Index",
-#            "amount": 58.67,
-#            "unit": ""
-#          },
-#          {
-#            "name": "Glycemic Load",
-#            "amount": 62.23,
-#            "unit": ""
-#          }
-#          ],
-#          "caloricBreakdown": {
-#            "percentProtein": 3.88,
-#            "percentFat": 1.94,
-#            "percentCarbs": 94.18
-#          },
-#          "weightPerServing": {
-#            "amount": 905,
-#            "unit": "g"
-#          }
-
-    NutritionsListGetResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/NutritionItem'
-      required:
-        - data
-
+  
     NutritionItem:
       type: object
       additionalProperties: false
@@ -1109,18 +1161,7 @@ components:
         - nutrition_id
         - name
         - influence
-
-    CuisinesListGetResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CuisineItem'
-      required:
-        - data
-
+  
     CuisineItem:
       type: object
       additionalProperties: false
@@ -1135,14 +1176,76 @@ components:
         - cuisine_id
         - name
         - description
+    
+    EquipmentItem:
+      type: object
+      additionalProperties: false
+      properties:
+        equipment_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+      required:
+        - equipment_id
+        - name
+        - image
 
-    TasteWidgetGetResponse:
-    EquipmentWidgetGetResponse:
-    NutritionWidgetGetResponse:
-    IngredientWidgetGetResponse:
-    StepsGetWidgetResponse:
-    SummaryGetWidgetResponse:
-    CuisineGetWidgetResponse:
+    StepsItem:
+      type: object
+      additionalProperties: false
+      properties:
+        step_id:
+          type: integer
+        name:
+          type: string
+        text:
+          type: string
+      required:
+        - cuisine_id
+        - name
+        - text
+    
+    SummaryItem:
+      type: object
+      additionalProperties: false
+      properties:
+        summary_id:
+          type: integer
+        name:
+          type: string
+        measure:
+          type: string
+        quantity:
+          type: integer
+      required:
+        - summary_id
+        - name
+        - measure
+        - quantity
+
+
+    # single Utility Get responses
+    CategoryGetResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        category_id:
+          type: integer
+        name:
+          type: string
+        image:
+          type: string
+          format: binary
+        description:
+          type: string
+      required:
+        - ingredient_id
+        - name
+        - image
+        - description
 
     TasteGetResponse:
       type: object
@@ -1181,24 +1284,7 @@ components:
             $ref: '#/components/schemas/EquipmentItem'
       required:
         - equipment
-
-    EquipmentItem:
-      type: object
-      additionalProperties: false
-      properties:
-        equipment_id:
-          type: integer
-        name:
-          type: string
-        image:
-          type: string
-          format: binary
-      required:
-        - equipment_id
-        - name
-        - image
-
-
+    
     NutritionGetResponse:
       type: object
       additionalProperties: false
@@ -1263,22 +1349,7 @@ components:
       required:
         - steps
         - hints
-
-    StepsItem:
-      type: object
-      additionalProperties: false
-      properties:
-        step_id:
-          type: integer
-        name:
-          type: string
-        text:
-          type: string
-      required:
-        - cuisine_id
-        - name
-        - text
-
+    
     SummaryGetResponse:
       type: object
       additionalProperties: false
@@ -1293,24 +1364,6 @@ components:
       required:
         - summary
 
-    SummaryItem:
-      type: object
-      additionalProperties: false
-      properties:
-        summary_id:
-          type: integer
-        name:
-          type: string
-        measure:
-          type: string
-        quantity:
-          type: integer
-      required:
-        - summary_id
-        - name
-        - measure
-        - quantity
-
     CuisineGetResponse:
       type: object
       additionalProperties: false
@@ -1322,6 +1375,8 @@ components:
       required:
         - cuisine
 
+    
+    # Creators Schemas:
     CreatorGetResponse:
       type: object
       additionalProperties: false
@@ -1336,11 +1391,12 @@ components:
         description:
           type: string
       required:
-        -creator_id
-        -name
-        -photo
-        -description
-#        - smth else
+        - creator_id
+        - name
+        - photo
+        - description
+        #- smth else
+    
     CreatorUpdateRequest:
       type: object
       additionalProperties: false
@@ -1353,9 +1409,10 @@ components:
         description:
           type: string
       required:
-        -name
-        -photo
-        -description
+        - name
+        - photo
+        - description
+    
     CreatorItem:
       type: object
       additionalProperties: false
@@ -1368,9 +1425,10 @@ components:
         description:
           type: string
       required:
-        -name
-        -photo
-        -description
+        - name
+        - photo
+        - description
+    
     CreatorsIds:
       type: object
       additionalProperties: false
@@ -1387,6 +1445,7 @@ components:
               - id
       required:
         - creators
+    
     CreatorsIdsError:
       type: object
       additionalProperties: true
@@ -1403,6 +1462,7 @@ components:
               - id
       required:
         - creators
+    
     CreatorsGetResponse:
       type: object
       additionalProperties: false
@@ -1413,6 +1473,7 @@ components:
             $ref: '#/components/schemas/CreatorItem'
       required:
         - data
+    
     CreatorsPostRequest:
       type: object
       additionalProperties: false
@@ -1425,3 +1486,11 @@ components:
         - data
 #    CreatorPostRequest:
 #      тоже самое как и с апдейтом
+
+    # TasteWidgetGetResponse:
+    # EquipmentWidgetGetResponse:
+    # NutritionWidgetGetResponse:
+    # IngredientWidgetGetResponse:
+    # StepsGetWidgetResponse:
+    # SummaryGetWidgetResponse:
+    # CuisineGetWidgetResponse:
