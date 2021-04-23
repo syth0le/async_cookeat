@@ -704,7 +704,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreatorItem'
+                $ref: '#/components/schemas/CreatorItem' # переделать
         '400':
           description: 'Bad request'
         '404':
@@ -741,7 +741,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreatorsIds'
+                $ref: '#/components/schemas/CreatorsIds' # переделать
         '404':
           description: 'Not found'
 
