@@ -1445,7 +1445,7 @@ components:
               creator_id:
                 type: integer
             required:
-              - id
+              - creator_id
       required:
         - creators
 
@@ -1462,7 +1462,7 @@ components:
               creator_id:
                 type: integer
             required:
-              - id
+              - creator_id # или все таки id
       required:
         - creators
 
