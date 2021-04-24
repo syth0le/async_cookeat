@@ -36,7 +36,7 @@ tags:
     description: Operations available to control meal plan
 
 paths:
-  /recipes:
+  /recipes :
     description: 'Import recipes'
     get:
       summary: Returns recipes.
@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipesListGetResponse'
+                $ref: '#/components/schemas/RecipesLongListGetResponse'
         '404':
           description: 'Not found'
     post:
@@ -118,7 +118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeItem'
+                $ref: '#/components/schemas/RecipeLongItem'
         '400':
           description: 'Bad request'
         '404':
@@ -174,7 +174,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipeItem'
+                $ref: '#/components/schemas/RecipeLongItem'
         '400':
           description: 'Bad request'
         '404':
@@ -291,7 +291,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipesListGetResponse'
+                $ref: '#/components/schemas/RecipesShortListGetResponse'
         '404':
           description: 'Not found'
 
@@ -313,7 +313,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipesListGetResponse'
+                $ref: '#/components/schemas/RecipesShortListGetResponse'
         '404':
           description: 'Not found'
 
@@ -765,7 +765,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        recipes:
+        data:
           type: array
           items:
             $ref: '#/components/schemas/RecipeLongItem'
@@ -776,7 +776,7 @@ components:
       type: object
       additionalProperties: false
       properties:
-        recipes:
+        data:
           type: array
           items:
             $ref: '#/components/schemas/RecipeShortItem'
@@ -879,27 +879,29 @@ components:
           type: string
           format: binary
         category:
-          $ref: '#/components/schemas/CategoryItem'
+          $ref: '#/components/schemas/CategoryGetResponse'
         cuisine:
-          $ref: '#/components/schemas/CuisineItem'
+          $ref: '#/components/schemas/CuisineGetResponse'
         summary:
           type: array
           items:
-            $ref: '#/components/schemas/SummaryItem'
+            $ref: '#/components/schemas/SummaryGetResponse'
         steps:
           type: array
           items:
-            $ref: '#/components/schemas/StepsItem'
+            $ref: '#/components/schemas/StepsGetResponse'
         ingredients:
           type: array
           items:
-            $ref: '#/components/schemas/IngredientItem'
+            $ref: '#/components/schemas/IngredientGetResponse'
         nutrition:
           type: array
           items:
-            $ref: '#/components/schemas/NutritionItem'
+            $ref: '#/components/schemas/NutritionGetResponse'
         taste:
           $ref: '#/components/schemas/TasteGetResponse'
+        equipment:
+          $ref: '#/components/schemas/EquipmentGetResponse'
       required:
         - recipe_id
         - name
@@ -912,12 +914,13 @@ components:
         - ingredients
         - nutrition
         - taste
+        - equipment
 
     TopRecipesGetResponse:
       type: object
       additionalProperties: false
       properties:
-        recipes:
+        data:
           type: array
           items:
             $ref: '#/components/schemas/RecipeShortItem'
