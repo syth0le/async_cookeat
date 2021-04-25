@@ -9,3 +9,15 @@ class RecipesLongListGetResponse(BaseModel):
 
 class RecipesShortListGetResponse(BaseModel):
     data: list[RecipeShortItem]
+
+
+class RecipesIds:
+    recipes: list[
+        id: int
+    ]
+
+
+class RecipesIdsError:
+    recipes: list[
+        id: int
+    ]

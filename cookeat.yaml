@@ -996,7 +996,7 @@ components:
       type: object
       additionalProperties: true
       properties:
-        recipes:
+        top_recipes:
           type: array
           items:
             type: object
@@ -1007,13 +1007,13 @@ components:
             required:
               - id
       required:
-        - recipes
+        - top_recipes
 
     TopRecipesIds:
       type: object
       additionalProperties: false
       properties:
-        recipes:
+        top_recipes:
           type: array
           items:
             type: object
@@ -1024,7 +1024,7 @@ components:
             required:
               - id
       required:
-        - recipes
+        - top_recipes
 
 
     # SearchRecipesGetResponse:
