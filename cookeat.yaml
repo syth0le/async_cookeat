@@ -797,6 +797,13 @@ components:
         image:
           type: string
           format: binary
+        smtaldfmk:
+          type: string
+          enum:
+            - lunch
+            - dinner
+            - supper
+
         category:
           $ref: '#/components/schemas/CategoryGetResponse'
         cuisine:
@@ -820,7 +827,9 @@ components:
         taste:
           $ref: '#/components/schemas/TasteGetResponse'
         equipment:
-          $ref: '#/components/schemas/EquipmentGetResponse'
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentGetResponse'
       required:
         - recipe_id
         - name
@@ -1245,7 +1254,7 @@ components:
         description:
           type: string
       required:
-        - ingredient_id
+        - category_id
         - name
         - image
         - description
@@ -1346,9 +1355,11 @@ components:
         steps:
           type: array
           items:
-            $ref: '#/components/schemas/StepsItem'
+            $ref: '#/components/schemas/StepItem'
         hints:
-          type: string
+          type: array
+          items:
+            type: string
       required:
         - steps
         - hints
@@ -1366,6 +1377,7 @@ components:
             $ref: '#/components/schemas/SummaryItem'
       required:
         - summary
+        - cooker
 
     CuisineGetResponse:
       type: object
