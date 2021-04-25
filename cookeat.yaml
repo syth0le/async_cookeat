@@ -1048,7 +1048,7 @@ components:
       required:
         - data
 
-    NutritionsListGetResponse:
+    NutritionListGetResponse:
       type: object
       additionalProperties: false
       properties:
