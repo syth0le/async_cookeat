@@ -1085,7 +1085,7 @@ components:
         description:
           type: string
       required:
-        - ingredient_id
+        - category_id
         - name
         - image
         - description
@@ -1104,7 +1104,7 @@ components:
         nutrition:
           type: array
           items:
-            $ref: '#/components/schemas/NutritionGetResponse'
+            $ref: '#/components/schemas/NutritionItem'
         possible_units:
           type: array
           items:
@@ -1196,7 +1196,7 @@ components:
         - name
         - image
 
-    StepsItem:
+    StepItem:
       type: object
       additionalProperties: false
       properties:
