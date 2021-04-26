@@ -14,6 +14,11 @@ class RecipeShortItem(BaseModel):
     cuisine: CuisineGetResponse
     summary: SummaryGetResponse
 
+    # __example__ = {
+    #     "name": "Foo",
+    #     "category": "A very nice Item"
+    # }
+
 
 class RecipeLongItem(RecipeShortItem):
     date: datetime.datetime  # ???????

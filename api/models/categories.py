@@ -1,31 +1,14 @@
-from marshmallow_sqlalchemy import ModelSchema
-from marshmallow import fields
-from rest_api.utils.db_init import db
-from rest_api.models.top_categories import Top
+from sqlalchemy import Column, Integer, String, Text
+from api.utils.db_init import Base
 
 
-class Category(db.Model):
+class Category(Base):
     __tablename__ = 'categories'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'))
-    name = db.Column(db.String(50), nullable=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey('top.id'))
+    id = Column(Integer, primary_key=True, unique=True)  # category_id
+    name = Column(String(50), nullable=False, unique=True)
+    image = Column(String(50), nullable=True)
+    description = Column(Text, nullable=True)
 
     def __repr__(self):
         return '<Category %r>' % self.name
-
-    def create(self):
-        db.session.add(self)
-        db.session.commit()
-        return self
-
-
-class CategorySchema(ModelSchema):
-    class Meta(ModelSchema.Meta):
-        model = Category
-        sqla_session = db.session
-
-    id = fields.Number(dump_only=True)
-    name = fields.String(required=False)
-    recipe_id = fields.Integer()

@@ -14,7 +14,7 @@ async def router_get_creators():
     return response
 
 
-@router.post("/")
+@router.post("")
 async def router_post_creators():
     response = await get_creators()
     return response

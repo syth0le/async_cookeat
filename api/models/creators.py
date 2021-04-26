@@ -1,10 +1,12 @@
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Column, Integer, String
 
-creators = Table(
-    'creators',
-    # metadata,
-    Column('id', Integer, primary_key=True),  # creator_id
-    Column('name', String, unique=True, nullable=False),
-    Column('photo', String, unique=True, nullable=False),
-    Column('description', String, unique=True, nullable=False)
-)
+from api.utils.db_init import Base
+
+
+class Creators(Base):
+    __tablename__ = 'creators'
+
+    id = Column(Integer, primary_key=True),  # creator_id
+    name = Column(String, unique=True, nullable=False),
+    photo = Column(String, unique=True, nullable=False),
+    description = Column(String, unique=True, nullable=False)
