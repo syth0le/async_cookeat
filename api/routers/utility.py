@@ -1,5 +1,8 @@
 from fastapi import APIRouter
 
+from api.handlers.utility import get_categories, get_nutrition, get_cuisines, get_ingredients, search_ingredients, \
+    get_ingredient_subtitles, search_products, get_product_by_id, get_comparable_products
+
 router = APIRouter(
     prefix="/utility",
     tags=["utility"],
@@ -38,8 +41,8 @@ async def router_search_ingredients():
 
 
 @router.get("/ingredients/{id}/substitutes")
-async def router_ingredient_subtitles():
-    response = await get_ingredient_subtitles()
+async def router_ingredient_subtitles(id: int):
+    response = await get_ingredient_subtitles(id)
     return response
 
 
@@ -50,12 +53,12 @@ async def router_search_products():
 
 
 @router.get("/products/{id}")
-async def router_get_product_by_id():
-    response = await get_product_by_id()
+async def router_get_product_by_id(id: int):
+    response = await get_product_by_id(id)
     return response
 
 
 @router.get("/products/upc/{upc}/comparable}")
 async def router_get_comparable_products():
-    response = await get_comparable_products()
+    response = await get_comparable_products(id)
     return response
