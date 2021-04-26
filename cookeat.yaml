@@ -491,7 +491,7 @@ paths:
 
 
 
-  /categories:
+  /utility/categories:
     description: 'Import categories'
     get:
       summary: Returns categories.
@@ -508,7 +508,7 @@ paths:
         '404':
           description: 'Not found'
 
-  /ingredients:
+  /utility/ingredients:
     description: 'Import ingredients'
     get:
       summary: Returns ingredients.
@@ -525,11 +525,11 @@ paths:
         '404':
           description: 'Not found'
 
-  /nutritions:
-    description: 'Import nutritions'
+  /utility/nutrition:
+    description: 'Import nutrition'
     get:
-      summary: Returns nutritions.
-      description: 'Get nutritions list'
+      summary: Returns nutrition.
+      description: 'Get nutrition list'
       tags:
         - utility
       responses:
@@ -542,7 +542,7 @@ paths:
         '404':
           description: 'Not found'
 
-  /cuisines:
+  /utility/cuisines:
     description: 'Import cuisines'
     get:
       summary: Returns cuisines.
@@ -559,7 +559,7 @@ paths:
         '404':
           description: 'Not found'
 
-  /food/ingredients/search:
+  /utility/ingredients/search:
     description: Search for simple whole foods (e.g. fruits, vegetables, nuts, grains, meat, fish, dairy etc.).
 
     get:
@@ -572,7 +572,7 @@ paths:
         '400':
           description: Invalid
 
-  /food/ingredients/{id}/substitutes:
+  /utility/ingredients/{id}/substitutes:
     description: Search for substitutes for a given ingredient.
 
     get:
@@ -585,7 +585,7 @@ paths:
         '400':
           description: Invalid
 
-  /food/products/search:
+  /utility/products/search:
     description: Search packaged food products, such as frozen pizza or Greek yogurt.
     get:
       summary: Returns recipes.
@@ -597,7 +597,7 @@ paths:
         '400':
           description: Invalid
 
-  /food/products/{id}:
+  /utility/products/{id}:
     description: Use a product id to get full information about a product, such as ingredients, nutrition, etc. The nutritional information is per serving.
     get:
       summary: Returns recipes.
@@ -609,7 +609,7 @@ paths:
         '400':
           description: Invalid
 
-  /food/products/upc/{upc}/comparable:
+  /utility/products/upc/{upc}/comparable:
     description: Find comparable products to the given one. здесь штрихкод поменять потом
     get:
       summary: Returns recipes.
