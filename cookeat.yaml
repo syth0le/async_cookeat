@@ -751,11 +751,6 @@ paths:
 
 # отдельно по добавлению всякого к рецепту
 
-#/cuisines
-#/categories
-#/ingredients
-#/nutritions
-#/summary - заложить поварешку сюда именно)
 
 components:
   schemas:
@@ -1216,7 +1211,7 @@ components:
         text:
           type: string
       required:
-        - cuisine_id
+        - step_id
         - name
         - text
 

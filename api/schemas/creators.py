@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CreatorItem(BaseModel):
@@ -6,9 +6,13 @@ class CreatorItem(BaseModel):
     image: str
     description: str
 
+    class Config:
+        orm_mode = True
+
 
 class CreatorGetResponse(CreatorItem):
-    creator_id: int
+    # id: int = Field(alias='creator_id')
+    id: int
 
 
 class CreatorUpdateRequest(CreatorItem):
@@ -17,6 +21,9 @@ class CreatorUpdateRequest(CreatorItem):
 
 class CreatorsIds(BaseModel):
     creator_id: int
+
+    class Config:
+        orm_mode = True
 
 
 class CreatorsIdsError(CreatorsIds):
@@ -27,6 +34,12 @@ class CreatorsIdsError(CreatorsIds):
 class CreatorsGetResponse(BaseModel):
     data: list[CreatorItem]
 
+    class Config:
+        orm_mode = True
+
 
 class CreatorsPostRequest(BaseModel):
     data: list[CreatorItem]
+
+    class Config:
+        orm_mode = True
