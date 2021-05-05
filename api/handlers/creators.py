@@ -24,11 +24,11 @@ async def get_single_creator(db, creator_id):
 
 async def patch_single_creator(db, creator_id):
     creator = db.query(Creators).filter_by(id=creator_id).first()
-    stored_creator = CreatorItem(**creator)
+    stored_creator = CreatorItem(creator)
     update_data = CreatorItem.dict(exclude_unset=True)
     updated_item = stored_creator.copy(update=update_data)
 
-    # db.add(creator)
+    db.add(updated_item)
     db.commit()
     return creator
 
