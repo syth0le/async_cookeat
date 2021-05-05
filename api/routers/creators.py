@@ -18,8 +18,8 @@ router = APIRouter(
 @router.get("", response_model=CreatorsGetResponse)
 async def router_get_creators(db: Session = Depends(get_db)):
     response = await get_creators(db)
-    return CreatorsGetResponse("data" = response)
-
+    # return CreatorsGetResponse("data" = response)
+    return response
 
 
 @router.post("", responses={404: {"model": CreatorsIdsError}})
