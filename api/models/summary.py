@@ -6,8 +6,13 @@ from api.utils.db_init import Base
 class Summary(Base):
     __tablename__ = 'summaries'
 
+    id = Column(Integer, primary_key=True, unique=True)
     cooker = Column(String(50), nullable=True)
-    # summary
+    servings = Column(Integer, nullable=True)
+    cooking_time = Column(String(50), nullable=True)
+    preparation_time = Column(String(50), nullable=True)
+    total_time = Column(String(50), nullable=True)
 
-    # def __repr__(self):
-    #     return '<Summary %r>' % self.name
+    # recipe_id relationship
+    # ForeignKey
+

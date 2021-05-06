@@ -6,7 +6,7 @@ from api.utils.db_init import Base
 class Step(Base):
     __tablename__ = 'steps'
 
-    # steps
+    steps
     hints = Column(ARRAY, nullable=True)
 
     # def __repr__(self):

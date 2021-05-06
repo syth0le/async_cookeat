@@ -6,3 +6,4 @@ category = Table(
     Column('id', Integer, primary_key=True),  # creator_id
     Column('name', String, unique=True, nullable=False),
 )
+# WHY I CREATE THIS ONE????
