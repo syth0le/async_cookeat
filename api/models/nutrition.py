@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Enum as PgEnum, Float
 from enum import Enum
+from sqlalchemy.orm import relationship
 
 from api.utils.db_init import Base
 
@@ -17,7 +18,9 @@ class Nutrition(Base):
     name = Column(String(50), nullable=False, unique=True)
     amount = Column(String(50), nullable=True)
     influence = Column(PgEnum(Influence))
-    percentOfDailyNeeds = Column(Float, nullable=True)
+    percent_of_daily_needs = Column(Float, nullable=True)
+
+    recipes = relationship("NutritionToRecipe", back_populates="child")
 
     def __repr__(self):
         return '<Nutrition %r>' % self.name

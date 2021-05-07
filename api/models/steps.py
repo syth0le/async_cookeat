@@ -1,13 +1,19 @@
-from sqlalchemy import Column, Integer, String, ARRAY
+from sqlalchemy import Column, Integer, Text, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 from api.utils.db_init import Base
 
 
-class Step(Base):
+class Steps(Base):
     __tablename__ = 'steps'
 
-    steps
-    hints = Column(ARRAY, nullable=True)
+    id = Column(Integer, primary_key=True, unique=True)
+    number = Column(Integer, nullable=False)
+    step = Column(Text, nullable=False)
+    is_hint = Column(Boolean, default=False)
+    recipe_id = Column(Integer, ForeignKey("recipe.id"))
+
+    recipe = relationship("Recipe", back_populates="steps")
 
     # def __repr__(self):
     #     return '<Step %r>' % self.name

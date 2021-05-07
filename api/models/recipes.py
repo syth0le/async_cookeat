@@ -20,13 +20,14 @@ class Recipe(Base):
     cuisine = Column(String, ForeignKey('cuisines.name'))
     # equipments = relationship("Equipment", backref="recipe", cascade="all, delete-orphan")
 
+    steps = relationship("Steps", back_populates="recipe", cascade="all, delete-orphan")
     images = relationship("Images", back_populates="recipe", cascade="all, delete-orphan")
     summary = relationship("Summary", back_populates="recipe", cascade="all, delete-orphan")
-
     # nutrition = relationship("Nutrition", back_populates="recipe", cascade="all, delete-orphan")
     # ingredients = relationship("Ingredients", back_populates="recipe", cascade="all, delete-orphan")
-    # steps = relationship("Steps", back_populates="recipe", cascade="all, delete-orphan")
-
+    nutrition = relationship("NutritionToRecipe", back_populates="parent")
+    equipments = relationship("EquipmentToRecipe", back_populates="parent")
+    ingredients = relationship("IngredientToRecipe", back_populates="parent")
 
 # решить где каскадное удаление, а где всенет
 # решить и проверить все правильности связок на др таблицы

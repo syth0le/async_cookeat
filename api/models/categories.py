@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy import Column, Boolean, String, Text
 from sqlalchemy.orm import relationship
 
 from api.utils.db_init import Base
@@ -11,6 +11,7 @@ class Category(Base):
     name = Column(String(50), primary_key=True, unique=True)
     image = Column(String(50), nullable=True)
     description = Column(Text, nullable=True)
+    is_top_category = Column(Boolean, default=False)
 
     recipes = relationship("Recipe")
 
