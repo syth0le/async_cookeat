@@ -11,6 +11,6 @@ from api.models.summary import Summary
 # from api.models.top_categories import Top
 # from api.models.utility import
 
-from api.models.association_tables import IngredientToRecipe, EquipmentToRecipe, NutritionToRecipe
+from api.models.association_tables import IngredientToRecipe, EquipmentToRecipe, NutritionToRecipe, NutritionToIngredient
 
 from api.utils.db_init import Base

@@ -11,7 +11,7 @@ class Equipment(Base):
     name = Column(String(50), primary_key=True, nullable=False, unique=True)
     image = Column(String(50), nullable=True)
 
-    recipes = relationship("NutritionToRecipe", back_populates="child")
+    recipes = relationship("EquipmentToRecipe", back_populates="child")
 
     def __repr__(self):
         return '<Equipment %r>' % self.name

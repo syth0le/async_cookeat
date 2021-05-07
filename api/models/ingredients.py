@@ -11,8 +11,9 @@ class Ingredient(Base):
     name = Column(String(50), nullable=False, unique=True)
     image = Column(String(50), nullable=False, unique=True)
     possible_units = Column(ARRAY(String), nullable=False)
+    nutrition = relationship("NutritionToIngredient", back_populates="parent")
 
-    recipes = relationship("NutritionToRecipe", back_populates="child")
+    recipes = relationship("IngredientToRecipe", back_populates="child")
 
     def __repr__(self):
         return '<Ingredient %r>' % self.name
