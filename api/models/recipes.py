@@ -1,80 +1,37 @@
 import datetime
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
-from marshmallow_sqlalchemy import ModelSchema
-from marshmallow import fields
-from rest_api.utils.db_init import db
-from rest_api.models.categories import CategorySchema
-from rest_api.models.summary import SummarySchema
-from rest_api.models.nutrition import NutritionSchema
-from rest_api.models.images import ImagesSchema
-from rest_api.models.ingredients import IngredientsSchema
-from rest_api.models.steps import StepsSchema
+from api.utils.db_init import Base
 
 
-class Recipe(db.Model):
-    __tablename__ = 'recipes'
+class Recipe(Base):
+    __tablename__ = 'recipe'
 
-    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(128), unique=True)
-    slug = db.Column(db.String(128), unique=True)
-    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow)
-    steps = db.relationship("Steps", backref="recipe", cascade="all, delete-orphan")
-    category = db.relationship("Category", backref="recipe", cascade="all, delete-orphan")
-    summary = db.relationship("Summary", backref="recipe", cascade="all, delete-orphan")
-    nutrition = db.relationship("Nutrition", backref="recipe", cascade="all, delete-orphan")
-    images = db.relationship("Images", backref="recipe", cascade="all, delete-orphan")
-    ingredients = db.relationship("Ingredients", backref="recipe", cascade="all, delete-orphan")
+    id = Column(Integer, primary_key=True, unique=True)
+    name = Column(String(128), nullable=False, unique=True)
+    slug = Column(String(256), unique=True)
+    is_top_recipe = Column(Boolean, default=False)
+    date = Column(DateTime(timezone=True), default=datetime.time)  # переделать
 
+    # category = relationship("Category", backref="recipe", cascade="all, delete-orphan")
+    category = Column(String, ForeignKey('categories.name'))
+    # cuisine = relationship("Cuisine", backref="recipe", cascade="all, delete-orphan")
+    cuisine = Column(String, ForeignKey('cuisines.name'))
+    # equipments = relationship("Equipment", backref="recipe", cascade="all, delete-orphan")
+
+    images = relationship("Images", back_populates="recipe", cascade="all, delete-orphan")
+    summary = relationship("Summary", back_populates="recipe", cascade="all, delete-orphan")
+
+    # nutrition = relationship("Nutrition", back_populates="recipe", cascade="all, delete-orphan")
+    # ingredients = relationship("Ingredients", back_populates="recipe", cascade="all, delete-orphan")
+    # steps = relationship("Steps", back_populates="recipe", cascade="all, delete-orphan")
+
+
+# решить где каскадное удаление, а где всенет
+# решить и проверить все правильности связок на др таблицы
     def __str__(self):
-        return self.title
+        return self.name
 
     def __repr__(self):
-        return '<Recipe %r>' % self.title
-
-    def create(self):
-        db.session.add(self)
-        db.session.commit()
-        return self
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def update(self, data):
-        for key, item in data:
-            setattr(self, key, item)
-        # self.modified_at = datetime.datetime.utcnow()
-        db.session.commit()
-
-    @classmethod
-    def get_all_recipes(cls):
-        return cls.query.all()
-
-    @classmethod
-    def find_recipe_by_title(cls, title):
-        return cls.query.filter_by(title=title).first()
-
-
-    # @classmethod
-    # def convertation_json(cls, title):
-    #     recipe_obj = cls.query.filter_by(title=title).first()
-
-
-class RecipeSchema(ModelSchema):
-    class Meta(ModelSchema.Meta):
-        model = Recipe
-        sqla_session = db.session
-
-    id = fields.Number(dump_only=True)
-    title = fields.String(required=True)
-    slug = fields.String(required=True)
-    category = fields.Nested(CategorySchema, many=True, only=['name', 'id'])
-    summary = fields.Nested(SummarySchema, many=True, only=['name', 'quantity', 'measure', 'id'])
-    nutrition = fields.Nested(NutritionSchema, many=True, only=['name', 'quantity', 'measure', 'daily_value', 'id'])
-    images = fields.Nested(ImagesSchema, many=True, only=['slug', 'id'])
-    ingredients = fields.Nested(IngredientsSchema, many=True, only=['name', 'quantity', 'id'])
-    steps = fields.Nested(StepsSchema, many=True, only=['name', 'text', 'id'])
+        return '<Recipe %r>' % self.name

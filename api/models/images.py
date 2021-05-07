@@ -8,10 +8,10 @@ class Images(Base):
     __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True, unique=True)
-    # recipe_id = Column(Integer, ForeignKey('recipes.id'))
     image = Column(String(50), nullable=False)
+    recipe_id = Column(Integer, ForeignKey("recipe.id"))
 
-    # recipe relationship
+    recipe = relationship("Recipe", back_populates="images")
 
     def __repr__(self):
         return '<Images %r>' % self.image

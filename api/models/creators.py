@@ -10,3 +10,9 @@ class Creators(Base):
     name = Column(String(50), unique=True, nullable=False)
     image = Column(String(50), unique=True, nullable=False)
     description = Column(Text, unique=True, nullable=False)
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return '<Creators %r>' % self.name

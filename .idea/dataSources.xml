@@ -13,7 +13,7 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="cookeat@localhost" uuid="c4b4f01e-11fa-440a-86c0-fa15b399eaa5">
+    <data-source source="LOCAL" name="PostgreSQL - cookeat@localhost" uuid="c4b4f01e-11fa-440a-86c0-fa15b399eaa5">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
