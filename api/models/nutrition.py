@@ -19,6 +19,7 @@ class Nutrition(Base):
     amount = Column(String(50), nullable=True)
     influence = Column(PgEnum(Influence))
     percent_of_daily_needs = Column(Float, nullable=True)
+    nutrition = relationship("NutritionToIngredient", back_populates="child")
 
     recipes = relationship("NutritionToRecipe", back_populates="child")
 

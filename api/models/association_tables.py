@@ -11,7 +11,7 @@ class NutritionToRecipe(Base):
     nutrition_id = Column(Integer, ForeignKey('nutrition.id'), primary_key=True)
     extra_data = Column(String(50))
     child = relationship("Nutrition", back_populates="recipes")
-    parent = relationship("Recipe", back_populates="nutrition")
+    parent_nutrition = relationship("Recipe", back_populates="nutrition")
 
 
 class EquipmentToRecipe(Base):
@@ -21,7 +21,7 @@ class EquipmentToRecipe(Base):
     equipment_id = Column(String, ForeignKey('equipment.name'), primary_key=True)
     extra_data = Column(String(50))
     child = relationship("Equipment", back_populates="recipes")
-    parent = relationship("Recipe", back_populates="equipments")
+    parent_equipments = relationship("Recipe", back_populates="equipments")
 
 
 class IngredientToRecipe(Base):
@@ -31,7 +31,7 @@ class IngredientToRecipe(Base):
     equipment_id = Column(Integer, ForeignKey('ingredient.id'), primary_key=True)
     extra_data = Column(String(50))
     child = relationship("Ingredient", back_populates="recipes")
-    parent = relationship("Recipe", back_populates="ingredients")
+    parent_ingredients = relationship("Recipe", back_populates="ingredients")
 
 
 class NutritionToIngredient(Base):

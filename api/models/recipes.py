@@ -17,12 +17,12 @@ class Recipe(Base):
     category = Column(String, ForeignKey('categories.name'))
     cuisine = Column(String, ForeignKey('cuisines.name'))
 
-    steps = relationship("Steps", back_populates="recipe", cascade="all, delete-orphan")
-    images = relationship("Images", back_populates="recipe", cascade="all, delete-orphan")
-    summary = relationship("Summary", back_populates="recipe", cascade="all, delete-orphan")
-    nutrition = relationship("NutritionToRecipe", back_populates="parent")
-    equipments = relationship("EquipmentToRecipe", back_populates="parent")
-    ingredients = relationship("IngredientToRecipe", back_populates="parent")
+    steps = relationship("Steps", back_populates="recipe_steps", cascade="all, delete-orphan")
+    images = relationship("Images", back_populates="recipe_image", cascade="all, delete-orphan")
+    summary = relationship("Summary", back_populates="recipe_summary", cascade="all, delete-orphan")
+    nutrition = relationship("NutritionToRecipe", back_populates="parent_nutrition")
+    equipments = relationship("EquipmentToRecipe", back_populates="parent_equipments")
+    ingredients = relationship("IngredientToRecipe", back_populates="parent_ingredients")
 
 # решить где каскадное удаление, а где всенет
 # решить и проверить все правильности связок на др таблицы

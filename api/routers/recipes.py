@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from api.handlers.recipes import get_recipes, post_recipes, get_recipe_by_id, get_recipe_by_title, get_random_recipes, \
     autocomplete_recipes, get_similar_recipes, patch_recipe_by_id, delete_recipe_by_id, patch_recipe_by_title, \
@@ -6,6 +7,7 @@ from api.handlers.recipes import get_recipes, post_recipes, get_recipe_by_id, ge
 from api.handlers.recipes_widgets import get_taste_by_id, get_equipment_by_id, get_ingredients_by_id, \
     get_nutrition_by_id, get_steps_by_id, get_summary_by_id, get_cuisine_by_id
 from api.handlers.top_recipes import get_top_recipes, post_top_recipes, patch_top_recipes, delete_top_recipes
+from api.utils.db_init import get_db
 
 router = APIRouter(
     prefix="/recipes",
@@ -15,48 +17,48 @@ router = APIRouter(
 
 
 @router.get("")
-async def router_get_recipes():
-    response = await get_recipes()
+async def router_get_recipes(db: Session = Depends(get_db)):
+    response = await get_recipes(db)
     return response
 
 
 @router.post("")
-async def router_post_recipes():
-    response = await post_recipes()
+async def router_post_recipes(db: Session = Depends(get_db)):
+    response = await post_recipes(db)
     return response
 
 
 @router.get("/{recipe_id}")
-async def router_get_recipe_by_id(recipe_id: int):
-    response = await get_recipe_by_id(recipe_id)
+async def router_get_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
+    response = await get_recipe_by_id(db,recipe_id)
     return response
 
 
 @router.patch("/{recipe_id}")
-async def router_patch_recipe_by_id(recipe_id: int):
-    response = await patch_recipe_by_id(recipe_id)
+async def router_patch_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
+    response = await patch_recipe_by_id(db,recipe_id)
     return response
 
 
 @router.delete("/{recipe_id}")
-async def router_delete_recipe_by_id(recipe_id: int):
+async def router_delete_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await delete_recipe_by_id(recipe_id)
     return response
 
 
-@router.get("/{title}")
-async def router_get_recipe_by_title(title: str):
-    response = await get_recipe_by_title(title)
+@router.get("/title/{title}")
+async def router_get_recipe_by_title(title: str, db: Session = Depends(get_db)):
+    response = await get_recipe_by_title(db=db, title=title)
     return response
 
 
-@router.patch("/{title}")
+@router.patch("/title/{title}")
 async def router_patch_recipe_by_title(title: str):
     response = await patch_recipe_by_title(title)
     return response
 
 
-@router.delete("/{title}")
+@router.delete("/title/{title}")
 async def router_delete_recipe_by_title(title: str):
     response = await delete_recipe_by_title(title)
     return response

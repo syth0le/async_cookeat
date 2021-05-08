@@ -13,7 +13,7 @@ class Steps(Base):
     is_hint = Column(Boolean, default=False)
     recipe_id = Column(Integer, ForeignKey("recipe.id"))
 
-    recipe = relationship("Recipe", back_populates="steps")
+    recipe_steps = relationship("Recipe", back_populates="steps")
 
     # def __repr__(self):
     #     return '<Step %r>' % self.name

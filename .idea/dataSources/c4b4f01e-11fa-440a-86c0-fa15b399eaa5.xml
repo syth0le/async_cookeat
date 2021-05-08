@@ -807,7 +807,7 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>535</IntrospectionStateNumber>
+      <IntrospectionStateNumber>543</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|16577|16579|1
 sequence|table|16401|16403|1
@@ -2415,7 +2415,7 @@ sequence|table|16506|16508|1
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>536</IntrospectionStateNumber>
+      <IntrospectionStateNumber>544</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="18" parent="2" name="plpgsql">

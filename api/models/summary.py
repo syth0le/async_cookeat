@@ -15,4 +15,4 @@ class Summary(Base):
     total_time = Column(String(50), nullable=True)
     recipe_id = Column(Integer, ForeignKey("recipe.id"))
 
-    recipe = relationship("Recipe", back_populates="summary")
+    recipe_summary = relationship("Recipe", back_populates="summary")

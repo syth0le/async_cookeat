@@ -11,7 +11,7 @@ class Images(Base):
     image = Column(String(50), nullable=False)
     recipe_id = Column(Integer, ForeignKey("recipe.id"))
 
-    recipe = relationship("Recipe", back_populates="images")
+    recipe_image = relationship("Recipe", back_populates="images")
 
     def __repr__(self):
         return '<Images %r>' % self.image
