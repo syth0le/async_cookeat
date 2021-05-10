@@ -27,3 +27,18 @@ class RecipeLongItem(RecipeShortItem):
     nutrition: NutritionGetResponse
     taste: TasteGetResponse
     equipment: EquipmentGetResponse
+
+
+class RecipePostItem(BaseModel):
+    name: str
+    slug: str
+    # images: str # ImagesResponse
+    # category: CategoryGetResponse
+    # cuisine: CuisineGetResponse
+    # summary: SummaryGetResponse
+    # date: datetime.datetime  # ???????
+    # steps: StepsGetResponse
+    # ingredients: IngredientGetResponse
+    # nutrition: NutritionGetResponse
+    # taste: TasteGetResponse
+    # equipment: EquipmentGetResponse
