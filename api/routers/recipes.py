@@ -5,7 +5,7 @@ from api.handlers.recipes import get_recipes, post_recipes, get_recipe_by_id, ge
     autocomplete_recipes, get_similar_recipes, patch_recipe_by_id, delete_recipe_by_id, patch_recipe_by_title, \
     delete_recipe_by_title
 from api.handlers.recipes_widgets import get_taste_by_id, get_equipment_by_id, get_ingredients_by_id, \
-    get_nutrition_by_id, get_steps_by_id, get_summary_by_id, get_cuisine_by_id
+    get_nutrition_by_id, get_steps_by_id, get_summary_by_id, get_cuisine_by_id, get_category_by_id
 from api.handlers.top_recipes import get_top_recipes, post_top_recipes, patch_top_recipes, delete_top_recipes
 from api.schemas.post_recipes import RecipesPostRequest
 from api.schemas.top_recipes import TopRecipesIds
@@ -148,4 +148,10 @@ async def router_get_summary_by_id(recipe_id: int, db: Session = Depends(get_db)
 @router.get("/{recipe_id}/cuisineWidget")
 async def router_get_cuisine_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await get_cuisine_by_id(db=db, recipe_id=recipe_id)
+    return response
+
+
+@router.get("/{recipe_id}/categoryWidget")
+async def router_get_category_by_id(recipe_id: int, db: Session = Depends(get_db)):
+    response = await get_category_by_id(db=db, recipe_id=recipe_id)
     return response

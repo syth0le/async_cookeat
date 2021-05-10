@@ -15,5 +15,5 @@ class Steps(Base):
 
     recipe_steps = relationship("Recipe", back_populates="steps")
 
-    # def __repr__(self):
-    #     return '<Step %r>' % self.name
+    def __repr__(self):
+        return '<Step %r>' % self.number

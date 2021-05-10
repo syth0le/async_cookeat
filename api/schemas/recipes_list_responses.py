@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+from api.schemas.base_ids import BaseIds
 from api.schemas.recipe_items import RecipeLongItem, RecipeShortItem
 
 
@@ -12,12 +13,8 @@ class RecipesShortListGetResponse(BaseModel):
 
 
 class RecipesIds:
-    recipes: list[
-        id: int
-    ]
+    recipes: list[BaseIds]
 
 
 class RecipesIdsError:
-    recipes: list[
-        id: int
-    ]
+    recipes: list[BaseIds]

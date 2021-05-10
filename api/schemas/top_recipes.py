@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+from api.schemas.base_ids import BaseIds
 from api.schemas.recipe_items import RecipeShortItem
 
 
@@ -8,11 +9,8 @@ class TopRecipesGetResponse(BaseModel):
 
 
 class TopRecipesIds(BaseModel):
-    # smt: str
-    top_recipes: list[int]
+    top_recipes: list[BaseIds]
 
 
-# class TopRecipesIdsError(BaseModel):
-#     top_recipes: list[
-#         id: int
-#     ]
+class TopRecipesIdsError(BaseModel):
+    top_recipes: list[BaseIds]

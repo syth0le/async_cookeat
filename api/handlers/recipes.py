@@ -57,7 +57,7 @@ async def post_recipes(db: Session, data):
 
 
 async def get_random_recipes(db: Session, limit: int = 10):
-    return db.query(Recipe).order_by(func.random()).limit(limit).all()
+    return await db.query(Recipe).order_by(func.random()).limit(limit).all()
 
 
 async def get_similar_recipes(db: Session, recipe_id):

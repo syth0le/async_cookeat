@@ -11,7 +11,6 @@ async def get_top_recipes(db: Session):
 
 async def post_top_recipes(db: Session, data):
     for elem in data.top_recipes:
-        # print(elem)
         recipe = db.query(Recipe).filter_by(id=elem).first()
         recipe.is_top_recipe = True
         db.add(recipe)
@@ -20,7 +19,7 @@ async def post_top_recipes(db: Session, data):
     return f"done {data}"
 
 
-async def patch_top_recipes(recipe_id: int, db: Session):
+async def patch_top_recipes(recipe_id: int, db: Session) -> Recipe:
     recipe = db.query(Recipe).filter_by(id=recipe_id).first()
     recipe.is_top_recipe = False if recipe.is_top_recipe else True
     db.add(recipe)
@@ -29,7 +28,7 @@ async def patch_top_recipes(recipe_id: int, db: Session):
     return recipe
 
 
-async def delete_top_recipes(recipe_id: int, db: Session):
+async def delete_top_recipes(recipe_id: int, db: Session) -> Recipe:
     recipe = db.query(Recipe).filter_by(id=recipe_id).first()
     recipe.is_top_recipe = False
     db.add(recipe)
