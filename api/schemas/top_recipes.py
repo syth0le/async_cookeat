@@ -7,13 +7,12 @@ class TopRecipesGetResponse(BaseModel):
     data: list[RecipeShortItem]
 
 
-class TopRecipesIds:
-    top_recipes: list[
-        id: int
-    ]
+class TopRecipesIds(BaseModel):
+    # smt: str
+    top_recipes: list[int]
 
 
-class TopRecipesIdsError:
-    top_recipes: list[
-        id: int
-    ]
+# class TopRecipesIdsError(BaseModel):
+#     top_recipes: list[
+#         id: int
+#     ]

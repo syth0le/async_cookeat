@@ -36,7 +36,9 @@ class EquipmentItem(BaseClass):
 
 class StepItem(BaseClass):
     step_id: int
-    text: str
+    number: int
+    step: str
+    is_hint: bool
 
 
 class SummaryItem(BaseClass):

@@ -7,7 +7,7 @@ from api.utils.db_init import Base
 class Cuisine(Base):
     __tablename__ = 'cuisines'
 
-    name = Column(String(50), primary_key=True, unique=True, nullable=False)
+    name = Column(String(50), primary_key=True, unique=True, default=None)
     image = Column(String(50), unique=True, nullable=False)
     description = Column(Text, unique=True, nullable=False)
 

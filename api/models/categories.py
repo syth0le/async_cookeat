@@ -8,7 +8,7 @@ class Category(Base):
     __tablename__ = 'categories'
 
     # id = Column(Integer, primary_key=True, unique=True)  # category_id
-    name = Column(String(50), primary_key=True, unique=True)
+    name = Column(String(50), primary_key=True, unique=True, default=None)
     image = Column(String(50), nullable=True)
     description = Column(Text, nullable=True)
     is_top_category = Column(Boolean, default=False)

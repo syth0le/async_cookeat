@@ -8,6 +8,7 @@ from api.handlers.recipes_widgets import get_taste_by_id, get_equipment_by_id, g
     get_nutrition_by_id, get_steps_by_id, get_summary_by_id, get_cuisine_by_id
 from api.handlers.top_recipes import get_top_recipes, post_top_recipes, patch_top_recipes, delete_top_recipes
 from api.schemas.post_recipes import RecipesPostRequest
+from api.schemas.top_recipes import TopRecipesIds
 from api.utils.db_init import get_db
 
 router = APIRouter(
@@ -29,19 +30,19 @@ async def router_post_recipes(schema: RecipesPostRequest, db: Session = Depends(
     return response
 
 
-@router.get("/{recipe_id}")
+@router.get("/id/{recipe_id}")
 async def router_get_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await get_recipe_by_id(db=db, recipe_id=recipe_id)
     return response
 
 
-@router.patch("/{recipe_id}")
+@router.patch("/id/{recipe_id}")
 async def router_patch_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await patch_recipe_by_id(db=db, recipe_id=recipe_id)
     return response
 
 
-@router.delete("/{recipe_id}")
+@router.delete("/id/{recipe_id}")
 async def router_delete_recipe_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await delete_recipe_by_id(db=db, recipe_id=recipe_id)
     return response
@@ -72,26 +73,27 @@ async def router_get_top_recipes(db: Session = Depends(get_db)):
 
 
 @router.post("/top")
-async def router_post_top_recipes(db: Session = Depends(get_db)):
-    response = await post_top_recipes(db=db)
+async def router_post_top_recipes(data: TopRecipesIds, db: Session = Depends(get_db)):
+    response = await post_top_recipes(db=db, data=data)
     return response
 
 
-@router.patch("/top")
-async def router_patch_top_recipes(db: Session = Depends(get_db)):
-    response = await patch_top_recipes(db=db)
+@router.patch("/top/{recipe_id}")
+async def router_patch_top_recipes(recipe_id: int, db: Session = Depends(get_db)):
+    response = await patch_top_recipes(db=db, recipe_id=recipe_id)
     return response
 
 
-@router.delete("/top")
-async def router_delete_top_recipes(db: Session = Depends(get_db)):
-    response = await delete_top_recipes(db=db)
+@router.delete("/top/{recipe_id}")
+async def router_delete_top_recipes(recipe_id: int, db: Session = Depends(get_db)):
+    response = await delete_top_recipes(db=db, recipe_id=recipe_id)
     return response
 
 
 @router.get("/random")
 async def router_get_random_recipes(db: Session = Depends(get_db)):
-    response = await get_random_recipes(db=db)
+    limit = 10
+    response = await get_random_recipes(db=db, limit=limit)
     return response
 
 

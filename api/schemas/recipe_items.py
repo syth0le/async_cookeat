@@ -14,10 +14,8 @@ class RecipeShortItem(BaseModel):
     cuisine: CuisineGetResponse
     summary: SummaryGetResponse
 
-    # __example__ = {
-    #     "name": "Foo",
-    #     "category": "A very nice Item"
-    # }
+    class Config:
+        orm_mode = True
 
 
 class RecipeLongItem(RecipeShortItem):
@@ -28,17 +26,24 @@ class RecipeLongItem(RecipeShortItem):
     taste: TasteGetResponse
     equipment: EquipmentGetResponse
 
+    class Config:
+        orm_mode = True
+
 
 class RecipePostItem(BaseModel):
     name: str
     slug: str
-    # images: str # ImagesResponse
+    is_top_recipe: bool
+    created_date: datetime.datetime
+
     # category: CategoryGetResponse
-    # cuisine: CuisineGetResponse
-    # summary: SummaryGetResponse
-    # date: datetime.datetime  # ???????
-    # steps: StepsGetResponse
-    # ingredients: IngredientGetResponse
-    # nutrition: NutritionGetResponse
-    # taste: TasteGetResponse
-    # equipment: EquipmentGetResponse
+    # cuisine:
+
+    # steps:
+    # images:
+    # summary:
+    # equipmnets:
+    # ingredients:
+
+    class Config:
+        orm_mode = True
