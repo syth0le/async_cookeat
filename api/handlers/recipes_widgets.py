@@ -36,3 +36,9 @@ async def get_cuisine_by_id(db: Session, recipe_id: int):
 async def get_category_by_id(db: Session, recipe_id: int):
     category = db.query(Recipe.category).filter_by(id=recipe_id).first()
     return db.query(Category).filter_by(name=category).all()
+
+## так  правильнее искать  load_only()
+    # user = session.query(User).\
+    #     filter(User.validation == request.cookies.get("validation")).\
+    #     options(load_only("id")).\
+    #     one()
