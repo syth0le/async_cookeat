@@ -19,6 +19,7 @@ app = FastAPI()
 app.include_router(recipes)
 app.include_router(creators)
 app.include_router(utility)
+
 # app.include_router(ml_model)
 # app.include_router(auth)
 # app.include_router(meal_plan)

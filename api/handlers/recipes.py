@@ -5,6 +5,30 @@ from api.handlers.base import BaseRepository
 from api.models.recipes import Recipe
 
 
+async def get_recipe(db: Session, identificator: str):
+    if type(identificator) is int:
+        return db.query(Recipe).filter_by(id=identificator).first()
+    elif type(identificator) is str:
+        return db.query(Recipe).filter_by(name=identificator).first()
+    else:
+        return {"title": identificator, "message": "can't delete"}
+
+
+async def patch_recipe(db: Session, identificator: str):
+    return f"/recipes/{identificator}"
+
+
+async def delete_recipe(db: Session, identificator: str):
+    if type(identificator) is int:
+        db.query(Recipe).filter_by(id=identificator).delete()
+    elif type(identificator) is str:
+        db.query(Recipe).filter_by(name=identificator).delete()
+    else:
+        return {"title": identificator, "message": "can't delete"}
+    db.commit()
+    return {"title": identificator, "message": "deleted"}
+
+
 async def get_recipe_by_id(db: Session, recipe_id: int):
     return db.query(Recipe).filter_by(id=recipe_id).first()
 
@@ -56,11 +80,12 @@ async def post_recipes(db: Session, data):
     return f"done post {temp}"
 
 
-async def get_random_recipes(db: Session, limit: int = 10):
-    return await db.query(Recipe).order_by(func.random()).limit(limit).all()
+async def get_random_recipes(db: Session, limit: int = 10, skip: int = 0):
+    return db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
 
 
-async def get_similar_recipes(db: Session, recipe_id):
+async def get_similar_recipes(db: Session, recipe_id: int, limit: int = 100, skip: int = 0):
+    # return await db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
     return f"/recipes/{recipe_id}/similar"
 
 

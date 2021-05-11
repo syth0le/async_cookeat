@@ -5,8 +5,8 @@ from api.schemas.recipes_list_responses import RecipesIds
 from api.schemas.top_recipes import TopRecipesIds
 
 
-async def get_top_recipes(db: Session):
-    return db.query(Recipe).filter_by(is_top_recipe=True).all()
+async def get_top_recipes(db: Session, limit: int = 100, skip: int = 0):
+    return db.query(Recipe).filter_by(is_top_recipe=True).offset(skip).limit(limit).all()
 
 
 async def post_top_recipes(db: Session, data):
@@ -19,7 +19,7 @@ async def post_top_recipes(db: Session, data):
     return f"done {data}"
 
 
-async def patch_top_recipes(recipe_id: int, db: Session) -> Recipe:
+async def patch_top_recipe(recipe_id: int, db: Session) -> Recipe:
     recipe = db.query(Recipe).filter_by(id=recipe_id).first()
     recipe.is_top_recipe = False if recipe.is_top_recipe else True
     db.add(recipe)
@@ -28,7 +28,7 @@ async def patch_top_recipes(recipe_id: int, db: Session) -> Recipe:
     return recipe
 
 
-async def delete_top_recipes(recipe_id: int, db: Session) -> Recipe:
+async def delete_top_recipe(recipe_id: int, db: Session) -> Recipe:
     recipe = db.query(Recipe).filter_by(id=recipe_id).first()
     recipe.is_top_recipe = False
     db.add(recipe)
