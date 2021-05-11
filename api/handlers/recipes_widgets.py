@@ -2,10 +2,11 @@ from sqlalchemy.orm import Session
 
 from api.models import EquipmentToRecipe, IngredientToRecipe, NutritionToRecipe, Steps, Summary, Cuisine, Category
 from api.models.recipes import Recipe
+from api.schemas.utility_widgets import TasteGetResponse
 
 
 async def get_taste_by_id(db: Session, recipe_id: int):
-    return f"/{recipe_id}/tasteWidget"
+    return db.query(Recipe).filter_by(id=recipe_id).first()
 
 
 async def get_equipment_by_id(db: Session, recipe_id: int):

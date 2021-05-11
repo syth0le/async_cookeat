@@ -10,6 +10,7 @@ from api.handlers.recipes_widgets import get_taste_by_id, get_equipment_by_id, g
 from api.handlers.top_recipes import get_top_recipes, post_top_recipes, patch_top_recipe, delete_top_recipe
 from api.schemas.post_recipes import RecipesPostRequest
 from api.schemas.top_recipes import TopRecipesIds
+from api.schemas.utility_widgets import TasteGetResponse
 from api.utils.db_init import get_db
 
 router = APIRouter(
@@ -134,8 +135,8 @@ async def router_autocomplete_recipes(db: Session = Depends(get_db)):
     response = await autocomplete_recipes(db=db)
     return response
 
-
-@router.get("/{recipe_id}/tasteWidget")
+@router.get("/{recipe_id}/tasteWidget", response_model=TasteGetResponse)
+# @router.get("/{recipe_id}/tasteWidget")
 async def router_get_taste_by_id(recipe_id: int, db: Session = Depends(get_db)):
     response = await get_taste_by_id(db=db, recipe_id=recipe_id)
     return response
