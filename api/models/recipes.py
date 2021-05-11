@@ -1,5 +1,5 @@
 from sqlalchemy.sql import func
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
 from api.utils.db_init import Base
@@ -13,6 +13,14 @@ class Recipe(Base):
     slug = Column(String(256), unique=True)
     is_top_recipe = Column(Boolean, default=False)
     created_date = Column(DateTime(timezone=True), default=func.now())
+
+    sweetness = Column(Float)
+    saltiness = Column(Float)
+    sourness = Column(Float)
+    bitterness = Column(Float)
+    savoriness = Column(Float)
+    fattiness = Column(Float)
+    spiciness = Column(Float)
 
     category = Column(String, ForeignKey('categories.name'))
     cuisine = Column(String, ForeignKey('cuisines.name'))
