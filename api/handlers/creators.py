@@ -1,12 +1,15 @@
+from sqlalchemy.orm import Session
+
 from api.models.creators import Creators
-from api.schemas.creators import CreatorItem
+from api.schemas.creators import CreatorItem, CreatorsGetResponse
 
 
-async def get_creators(db):
-    return db.query(Creators).all()
+async def get_creators(db: Session) -> CreatorsGetResponse:
+    data = db.query(Creators).all()
+    return CreatorsGetResponse(data=data)
 
 
-async def post_creators(db, schema):
+async def post_creators(db: Session, schema):
     temp = list()
     for elem in schema.data:
         creator = Creators(**elem.dict())
@@ -18,22 +21,22 @@ async def post_creators(db, schema):
     return temp
 
 
-async def get_single_creator(db, creator_id):
+async def get_single_creator(db: Session, creator_id):
     return db.query(Creators).filter_by(id=creator_id).first()
 
 
-async def patch_single_creator(db, creator_id):
+async def patch_single_creator(db: Session, creator_id):
     creator = db.query(Creators).filter_by(id=creator_id).first()
-    stored_creator = CreatorItem(creator)
-    update_data = CreatorItem.dict(exclude_unset=True)
-    updated_item = stored_creator.copy(update=update_data)
-
-    db.add(updated_item)
-    db.commit()
+    # stored_creator = CreatorItem(creator)
+    # update_data = CreatorItem.dict(exclude_unset=True)
+    # updated_item = stored_creator.copy(update=update_data)
+    #
+    # db.add(updated_item)
+    # db.commit()
     return creator
 
 
-async def delete_single_creator(db, creator_id):
+async def delete_single_creator(db: Session, creator_id):
     creator = db.query(Creators).filter_by(id=creator_id).first()
     db.delete(creator)
     db.commit()
