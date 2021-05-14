@@ -18,3 +18,6 @@ class RecipeGetResponse(BaseModel):
     nutrition: NutritionGetResponse
     taste: TasteGetResponse
     equipment: EquipmentGetResponse
+
+    class Config:
+        orm_mode = True

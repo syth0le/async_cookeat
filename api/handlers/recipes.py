@@ -11,7 +11,7 @@ async def get_recipe(db: Session, identificator: str):
     elif type(identificator) is str:
         return db.query(Recipe).filter_by(name=identificator).first()
     else:
-        return {"title": identificator, "message": "can't delete"}
+        return {"title": identificator, "message": "can't get"}
 
 
 async def patch_recipe(db: Session, identificator: str):

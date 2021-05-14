@@ -26,9 +26,6 @@ class NutritionGetResponse(BaseClass):
     amount: str  # string ???????? what
     percentOfDailyNeeds: float
 
-    class Config:
-        orm_mode = True
-
 
 class IngredientGetResponse(BaseClass):
     id: int
@@ -72,3 +69,4 @@ class TasteGetResponse(BaseModel):
 
     class Config:
         orm_mode = True
+

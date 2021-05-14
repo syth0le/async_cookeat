@@ -4,6 +4,9 @@ from pydantic import BaseModel
 class BaseClass(BaseModel):
     name: str
 
+    class Config:
+        orm_mode = True
+
 
 class CategoryItem(BaseClass):
     category_id: int

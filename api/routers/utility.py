@@ -1,8 +1,11 @@
+from typing import Union
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from api.handlers.utility import get_categories, get_nutrition, get_cuisines, get_ingredients, search_ingredients, \
-    get_ingredient_subtitles, search_products, get_product_by_id, get_comparable_products
+    get_ingredient_subtitles, search_products, get_product_by_id, get_comparable_products, get_single_ingredient, \
+    get_single_cuisine, get_single_nutrition, get_single_category
 from api.utils.db_init import get_db
 
 router = APIRouter(
@@ -13,28 +16,59 @@ router = APIRouter(
 
 
 @router.get("/categories")
-async def router_get_categories(db: Session = Depends(get_db)):
-    response = await get_categories(db=db)
+async def router_get_categories(db: Session = Depends(get_db),
+                                limit: int = 100,
+                                skip: int = 0):
+    response = await get_categories(db=db, limit=limit, skip=skip)
     return response
 
 
 @router.get("/nutrition")
-async def router_get_nutrition(db: Session = Depends(get_db)):
-    response = await get_nutrition(db=db)
+async def router_get_nutrition(db: Session = Depends(get_db),
+                               limit: int = 100,
+                               skip: int = 0):
+    response = await get_nutrition(db=db, limit=limit, skip=skip)
     return response
 
 
 @router.get("/cuisines")
-async def router_get_cuisines(db: Session = Depends(get_db)):
-    response = await get_cuisines(db=db)
+async def router_get_cuisines(db: Session = Depends(get_db),
+                              limit: int = 100,
+                              skip: int = 0):
+    response = await get_cuisines(db=db, limit=limit, skip=skip)
     return response
 
 
 @router.get("/ingredients")
-async def router_get_ingredients(db: Session = Depends(get_db)):
-    response = await get_ingredients(db=db)
+async def router_get_ingredients(db: Session = Depends(get_db),
+                                 limit: int = 100,
+                                 skip: int = 0):
+    response = await get_ingredients(db=db, limit=limit, skip=skip)
     return response
 
+
+@router.get("/categories/{identificator}")
+async def router_get_single_categories(identificator: str, db: Session = Depends(get_db)):
+    response = await get_single_category(db=db, name=identificator)
+    return response
+
+
+@router.get("/nutrition/{identificator}")
+async def router_get_single_nutrition(identificator: Union[int, str], db: Session = Depends(get_db)):
+    response = await get_single_nutrition(db=db, identificator=identificator)
+    return response
+
+
+@router.get("/cuisines/{identificator}")
+async def router_get_single_cuisines(identificator: str, db: Session = Depends(get_db)):
+    response = await get_single_cuisine(db=db, name=identificator)
+    return response
+
+
+@router.get("/ingredients/{identificator}")
+async def router_get_single_ingredients(identificator: Union[int, str], db: Session = Depends(get_db)):
+    response = await get_single_ingredient(db=db, identificator=identificator)
+    return response
 
 # @router.get("/ingredients/search")
 # async def router_search_ingredients():

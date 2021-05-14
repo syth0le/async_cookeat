@@ -135,6 +135,7 @@ async def router_autocomplete_recipes(db: Session = Depends(get_db)):
     response = await autocomplete_recipes(db=db)
     return response
 
+
 @router.get("/{recipe_id}/tasteWidget", response_model=TasteGetResponse)
 # @router.get("/{recipe_id}/tasteWidget")
 async def router_get_taste_by_id(recipe_id: int, db: Session = Depends(get_db)):
