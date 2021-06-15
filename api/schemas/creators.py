@@ -1,10 +1,14 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field
+
+from api.schemas.base_ids import BaseIds
 
 
 class CreatorItem(BaseModel):
-    name: str
-    image: str
-    description: str
+    name: Optional[str]
+    image: Optional[str]
+    description: Optional[str]
 
     class Config:
         orm_mode = True
@@ -20,15 +24,20 @@ class CreatorUpdateRequest(CreatorItem):
 
 
 class CreatorsIds(BaseModel):
-    creator_id: int
+    creators_ids: list[BaseIds]
 
     class Config:
         orm_mode = True
 
 
-class CreatorsIdsError(CreatorsIds):
+class CreatorsIdsError(BaseModel):
     # или все таки id вместо creator_id
-    pass
+    creator_id: int = None
+    status: int
+    name: str = None
+
+    class Config:
+        orm_mode = True
 
 
 class CreatorsGetResponse(BaseModel):
