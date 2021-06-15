@@ -72,9 +72,6 @@ async def router_patch_single_creator(schema: CreatorUpdateRequest, _response: R
     return response
 
 
-# CДЕЛАТЬ ПАТЧ МЕТОД
-
-
 @router.delete("/{creator_id}",
                response_model=CreatorsIdsError,
                response_model_exclude_none=True,

@@ -1,12 +1,8 @@
-import sqlalchemy
-from fastapi import HTTPException
-from sqlalchemy import update
 from sqlalchemy.orm import Session
-from pydantic_sqlalchemy import sqlalchemy_to_pydantic
 
 from api.handlers.base import BaseRepository
 from api.models.creators import Creators
-from api.schemas.creators import CreatorItem, CreatorsGetResponse, CreatorsIdsError
+from api.schemas.creators import CreatorItem
 from api.utils.exceptions import Exception_404, Exception_409
 
 
