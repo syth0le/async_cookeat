@@ -31,7 +31,6 @@ class CreatorsIds(BaseModel):
 
 
 class CreatorsIdsError(BaseModel):
-    # или все таки id вместо creator_id
     creator_id: int = None
     status: int
     name: str = None
