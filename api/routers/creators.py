@@ -64,11 +64,11 @@ async def router_get_single_creator(creator_id: int, _response: Response, db: Se
               responses={200: {"model": CreatorGetResponse}, 404: {"model": CreatorsIdsError}},
               status_code=200)
 async def router_patch_single_creator(schema: CreatorItem, _response: Response, creator_id: int, db: Session = Depends(get_db)):
-    # try:
-    #     response = await creators.patch_single_creator(db=db, schema=schema, creator_id=creator_id)
-    # except Exception_404 as ex:
-    #     _response.status_code = 404
-    #     return CreatorsIdsError(status=404, name=ex.name)
+    try:
+        response = await creators.patch_single_creator(db=db, schema=schema, creator_id=creator_id)
+    except Exception_404 as ex:
+        _response.status_code = 404
+        return CreatorsIdsError(status=404, name=ex.name)
     response = await creators.patch_single_creator(db=db, schema=schema, creator_id=creator_id)
     return response
 

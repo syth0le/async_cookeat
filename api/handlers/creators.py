@@ -1,5 +1,6 @@
 import sqlalchemy
 from fastapi import HTTPException
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from pydantic_sqlalchemy import sqlalchemy_to_pydantic
 
@@ -40,20 +41,14 @@ class CreatorsRepository(BaseRepository):
         return data
 
     async def patch_single_creator(db: Session, schema: CreatorItem, creator_id: int):
-        print(schema.dict(), type(schema))
-        stored_creator_data = db.query(Creators).filter_by(id=creator_id).first()
-        print(stored_creator_data)
-        stored_creator_model = CreatorItem.from_orm(stored_creator_data)
-        print(stored_creator_model, type(stored_creator_model))
         update_data = schema.dict(exclude_unset=True)
-        print(update_data)
-        updated_item = stored_creator_model.copy(update=update_data)
-        print(updated_item, type(schema))
-        # db.
-        db.add(*update_data)
+        db.query(Creators).filter(Creators.id == creator_id). \
+            update(update_data, synchronize_session="fetch")
         db.commit()
-        db.refresh(**updated_item)
-        # return updated_item
+        updated_creator = db.query(Creators).filter_by(id=creator_id).first()
+        if updated_creator is None:
+            raise Exception_404(name=f"Not found element with id={creator_id}")
+        return updated_creator
 
     async def delete_single_creator(db: Session, creator_id: int) -> dict:
         creator = db.query(Creators).filter_by(id=creator_id).first()
