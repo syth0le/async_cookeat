@@ -38,9 +38,9 @@ async def router_get_creators(_response: Response, db: Session = Depends(get_db)
 async def router_post_creators(schema: CreatorsPostRequest, _response: Response, db: Session = Depends(get_db)):
     try:
         response = await creators.post_creators(db=db, schema=schema)
-    except Exception_409 as e:
+    except Exception_409 as ex:
         _response.status_code = 409
-        return CreatorsIdsError(status=409, name=e.name)
+        return CreatorsIdsError(status=409, name=ex.name)
     return CreatorsIds(creators_ids=response)
 
 

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+from api.schemas.base_ids import BaseIds
 from api.schemas.utility_items import SummaryItem, CuisineItem, StepItem, EquipmentItem
 
 
@@ -8,6 +9,18 @@ class BaseClass(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UtilityIds(BaseModel):
+    utility_ids: list[BaseIds]
+
+    class Config:
+        orm_mode = True
+
+
+class UtilityIdsError(BaseClass):
+    utility_id: int = None
+    status: int
 
 
 class CategoryGetResponse(BaseClass):
