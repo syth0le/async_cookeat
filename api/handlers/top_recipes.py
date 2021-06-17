@@ -11,14 +11,14 @@ class TopRecipesRepository(BaseRepository):
     async def get_top_recipes(db: Session, limit: int = 100, skip: int = 0):
         return db.query(Recipe).filter_by(is_top_recipe=True).offset(skip).limit(limit).all()
 
-    async def post_top_recipes(db: Session, data):
-        for elem in data.top_recipes:
+    async def post_top_recipes(db: Session, schema):
+        for elem in schema.top_recipes:
             recipe = db.query(Recipe).filter_by(id=elem).first()
             recipe.is_top_recipe = True
             db.add(recipe)
             db.commit()
             db.refresh(recipe)
-        return f"done {data}"
+        return f"done {schema}"
 
     async def patch_top_recipe(recipe_id: int, db: Session) -> Recipe:
         recipe = db.query(Recipe).filter_by(id=recipe_id).first()

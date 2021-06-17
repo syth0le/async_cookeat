@@ -91,30 +91,38 @@ from api.models.recipes import Recipe
 #
 # async def autocomplete_recipes(self, db: Session):
 #     return "/recipes/autocomplete"
+from api.utils.exceptions import Exception_400, Exception_404
 
 
 class RecipeSingleRepository(BaseRepository):
 
     async def get_recipe(db: Session, identificator: str):
         if type(identificator) is int:
-            return db.query(Recipe).filter_by(id=identificator).first()
+            data = db.query(Recipe).filter_by(id=identificator).first()
         elif type(identificator) is str:
-            return db.query(Recipe).filter_by(name=identificator).first()
+            data = db.query(Recipe).filter_by(name=identificator).first()
         else:
-            return {"title": identificator, "message": "can't get"}
+            raise Exception_400(name=f"Not correct type of identificator={type(identificator)}")
+        if data is None:
+            raise Exception_404(name=f"Not found recipe with identificator={identificator}")
+        return data
 
     async def patch_recipe(db: Session, identificator: str):
         return f"/recipes/{identificator}"
 
     async def delete_recipe(db: Session, identificator: str):
+
         if type(identificator) is int:
-            db.query(Recipe).filter_by(id=identificator).delete()
+            recipe = db.query(Recipe).filter_by(id=identificator).first()
         elif type(identificator) is str:
-            db.query(Recipe).filter_by(name=identificator).delete()
+            recipe = db.query(Recipe).filter_by(name=identificator).first()
         else:
-            return {"title": identificator, "message": "can't delete"}
+            raise Exception_400(name=f"Not correct type of identificator={type(identificator)}")
+        if recipe is None:
+            raise Exception_404(name=f"Not found recipe with identificator={identificator}")
+        db.delete(recipe)
         db.commit()
-        return {"title": identificator, "message": "deleted"}
+        return {"id": creator_id, "status": 200, "name": f"Deleted recipe with identificator={identificator}"}
 
     async def get_recipe_by_id(db: Session, recipe_id: int):
         return db.query(Recipe).filter_by(id=recipe_id).first()

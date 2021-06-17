@@ -21,7 +21,8 @@ router = APIRouter(
             response_model_exclude_none=True,
             responses={200: {"model": CreatorsGetResponse}, 404: {"model": CreatorsIdsError}},
             status_code=200)
-async def router_get_creators(_response: Response, db: Session = Depends(get_db)):
+async def router_get_creators(_response: Response,
+                              db: Session = Depends(get_db)):
     try:
         response = await creators.get_creators(db)
     except Exception_404 as ex:
@@ -35,7 +36,9 @@ async def router_get_creators(_response: Response, db: Session = Depends(get_db)
              response_model_exclude_none=True,
              responses={200: {"model": CreatorsIds}, 404: {"model": CreatorsIdsError}},
              status_code=200)
-async def router_post_creators(schema: CreatorsPostRequest, _response: Response, db: Session = Depends(get_db)):
+async def router_post_creators(schema: CreatorsPostRequest,
+                               _response: Response,
+                               db: Session = Depends(get_db)):
     try:
         response = await creators.post_creators(db=db, schema=schema)
     except Exception_409 as ex:
@@ -49,7 +52,9 @@ async def router_post_creators(schema: CreatorsPostRequest, _response: Response,
             response_model_exclude_none=True,
             responses={200: {"model": CreatorGetResponse}, 404: {"model": CreatorsIdsError}},
             status_code=200)
-async def router_get_single_creator(creator_id: int, _response: Response, db: Session = Depends(get_db)):
+async def router_get_single_creator(creator_id: int,
+                                    _response: Response,
+                                    db: Session = Depends(get_db)):
     try:
         response = await creators.get_single_creator(db=db, creator_id=creator_id)
     except Exception_404 as ex:
@@ -63,7 +68,10 @@ async def router_get_single_creator(creator_id: int, _response: Response, db: Se
               response_model_exclude_none=True,
               responses={200: {"model": CreatorGetResponse}, 404: {"model": CreatorsIdsError}},
               status_code=200)
-async def router_patch_single_creator(schema: CreatorUpdateRequest, _response: Response, creator_id: int, db: Session = Depends(get_db)):
+async def router_patch_single_creator(creator_id: int,
+                                      schema: CreatorUpdateRequest,
+                                      _response: Response,
+                                      db: Session = Depends(get_db)):
     try:
         response = await creators.patch_single_creator(db=db, schema=schema, creator_id=creator_id)
     except Exception_404 as ex:
@@ -77,7 +85,9 @@ async def router_patch_single_creator(schema: CreatorUpdateRequest, _response: R
                response_model_exclude_none=True,
                responses={200: {"model": CreatorsIdsError}, 404: {"model": CreatorsIdsError}},
                status_code=200)
-async def router_delete_single_creator(creator_id: int, _response: Response, db: Session = Depends(get_db)):
+async def router_delete_single_creator(creator_id: int,
+                                       _response: Response,
+                                       db: Session = Depends(get_db)):
     try:
         response = await creators.delete_single_creator(db=db, creator_id=creator_id)
     except Exception_404 as ex:
