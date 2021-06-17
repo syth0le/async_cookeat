@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from api.models.nutrition import Influence
 
 
 class BaseClass(BaseModel):
@@ -9,42 +11,47 @@ class BaseClass(BaseModel):
 
 
 class CategoryItem(BaseClass):
-    category_id: int
+    name: str
     image: str
+    is_top_category: bool
     description: str
 
 
 class NutritionItem(BaseClass):
-    nutrition_id: int
-    influence: str  # enum
+    id: int
+    influence: Influence  # enum
+
+    # class Config:
+    #     allow_population_by_alias = True
+    #     fields = {'id2': 'id'}
 
 
 class IngredientItem(BaseClass):
-    ingredient_id: int
+    id: int
     image: str
-    nutrition: list[NutritionItem]
+    # nutrition: list[NutritionItem]
     possible_units: list[str]
-    category_path: list[str]
+    # category_path: list[str]
 
 
 class CuisineItem(BaseClass):
-    cuisine_id: int
+    image: str
     description: str
 
 
 class EquipmentItem(BaseClass):
-    equipment_id: int
+    id: int
     image: str
 
 
 class StepItem(BaseClass):
-    step_id: int
+    id: int
     number: int
     step: str
     is_hint: bool
 
 
 class SummaryItem(BaseClass):
-    summary_id: int
+    id: int
     measure: str
     quantity: int

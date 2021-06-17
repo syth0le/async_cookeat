@@ -16,7 +16,7 @@ class Nutrition(Base):
 
     id = Column(Integer, primary_key=True, unique=True)  # nutrition_id
     name = Column(String(50), nullable=False, unique=True)
-    amount = Column(String(50), nullable=True)
+    amount = Column(String(50), nullable=True)  # сделать int или хранить строку с значением и measure
     influence = Column(PgEnum(Influence))
     percent_of_daily_needs = Column(Float, nullable=True)
     nutrition = relationship("NutritionToIngredient", back_populates="child")

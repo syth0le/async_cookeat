@@ -4,9 +4,12 @@ from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 
 from api.handlers.utility import UtilitySingleRepository as utility_single, UtilityAllRepository as ulitity_all
+from api.schemas.utility__list_responses import CategoriesListGetResponse, NutritionListGetResponse, \
+    CuisinesListGetResponse, IngredientsListGetResponse
+from api.schemas.utility_items import CategoryItem, NutritionItem, CuisineItem, IngredientItem
 from api.schemas.utility_widgets import UtilityIdsError
 from api.utils.db_init import get_db
-from api.utils.exceptions import Exception_404
+from api.utils.exceptions import Exception_404, Exception_400
 
 router = APIRouter(
     prefix="/utility",
@@ -16,9 +19,9 @@ router = APIRouter(
 
 
 @router.get("/categories",
-            response_model=main,
+            response_model=Union[CategoriesListGetResponse, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": CategoriesListGetResponse}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_categories(_response: Response,
                                 db: Session = Depends(get_db),
@@ -29,13 +32,14 @@ async def router_get_categories(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return UtilityIdsError(status=404, name=ex.name)
-    return response
+    return CategoriesListGetResponse(data=response)
 
 
 @router.get("/nutrition",
-            response_model=main,
+            response_model_by_alias=Union[NutritionListGetResponse, UtilityIdsError],
+            # response_model=Union[NutritionListGetResponse, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": NutritionListGetResponse}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_nutrition(_response: Response,
                                db: Session = Depends(get_db),
@@ -46,13 +50,13 @@ async def router_get_nutrition(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return UtilityIdsError(status=404, name=ex.name)
-    return response
+    return NutritionListGetResponse(data=response)
 
 
 @router.get("/cuisines",
-            response_model=main,
+            response_model=Union[CuisinesListGetResponse, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": CuisinesListGetResponse}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_cuisines(_response: Response,
                               db: Session = Depends(get_db),
@@ -63,13 +67,13 @@ async def router_get_cuisines(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return UtilityIdsError(status=404, name=ex.name)
-    return response
+    return CuisinesListGetResponse(data=response)
 
 
 @router.get("/ingredients",
-            response_model=main,
+            response_model=Union[IngredientsListGetResponse, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": IngredientsListGetResponse}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_ingredients(_response: Response,
                                  db: Session = Depends(get_db),
@@ -80,13 +84,13 @@ async def router_get_ingredients(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return UtilityIdsError(status=404, name=ex.name)
-    return response
+    return IngredientsListGetResponse(data=response)
 
 
 @router.get("/categories/{identificator}",
-            response_model=main,
+            response_model=Union[CategoryItem, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": CategoryItem}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_single_categories(identificator: str,
                                        _response: Response,
@@ -100,25 +104,29 @@ async def router_get_single_categories(identificator: str,
 
 
 @router.get("/nutrition/{identificator}",
-            response_model=main,
+            response_model=Union[NutritionItem, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": NutritionItem}, 400: {"model": UtilityIdsError},404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_single_nutrition(identificator: Union[int, str],
                                       _response: Response,
                                       db: Session = Depends(get_db)):
     try:
         response = await utility_single.get_single_nutrition(db=db, identificator=identificator)
-    except Exception_404 as ex:
-        _response.status_code = 404
-        return UtilityIdsError(status=404, name=ex.name)
+    except (Exception_404, Exception_400) as ex:
+        if isinstance(ex, Exception_400):
+            status = 400
+        else:
+            status = 404
+        _response.status_code = status
+        return UtilityIdsError(status=status, name=ex.name)
     return response
 
 
 @router.get("/cuisines/{identificator}",
-            response_model=main,
+            response_model=Union[CuisineItem, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
+            responses={200: {"model": CuisineItem}, 404: {"model": UtilityIdsError}},
             status_code=200)
 async def router_get_single_cuisines(identificator: str,
                                      _response: Response,
@@ -132,10 +140,11 @@ async def router_get_single_cuisines(identificator: str,
 
 
 @router.get("/ingredients/{identificator}",
-            response_model=main,
+            response_model=Union[IngredientItem, UtilityIdsError],
             response_model_exclude_none=True,
-            responses={200: {"model": main}, 404: {"model": UtilityIdsError}},
-            status_code=200)
+            responses={200: {"model": IngredientItem}, 404: {"model": UtilityIdsError}},
+            status_code=200,
+            )
 async def router_get_single_ingredients(identificator: Union[int, str],
                                         _response: Response,
                                         db: Session = Depends(get_db)):

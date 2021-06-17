@@ -10,7 +10,7 @@ class CreatorsRepository(BaseRepository):
 
     async def get_creators(db: Session):
         data = db.query(Creators).all()
-        if data:
+        if not data:
             raise Exception_404(name="Not found elements")
         return data
 

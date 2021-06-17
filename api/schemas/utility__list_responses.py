@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from utility_items import CategoryItem, IngredientItem, NutritionItem, CuisineItem
+from api.schemas.utility_items import CategoryItem, IngredientItem, NutritionItem, CuisineItem
 
 
 class CategoriesListGetResponse(BaseModel):

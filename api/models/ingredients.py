@@ -12,7 +12,7 @@ class Ingredient(Base):
     image = Column(String(50), nullable=False, unique=True)
     possible_units = Column(ARRAY(String), nullable=False)
     nutrition = relationship("NutritionToIngredient", back_populates="parent")
-
+    # написать проверку в процентах от 0 до 100
     recipes = relationship("IngredientToRecipe", back_populates="child")
 
     def __repr__(self):
