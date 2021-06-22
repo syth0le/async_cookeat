@@ -22,21 +22,21 @@ router = APIRouter(
 )
 
 
-@router.get("/{identificator}",
-            response_model=Union[RecipeGetResponse, RecipesIdsError],
-            response_model_exclude_none=True,
-            responses={200: {"model": RecipeGetResponse}, 404: {"model": RecipesIdsError}},
-            status_code=200)
-async def router_get_recipe(identificator: Union[int, str],
-                            _response: Response,
-                            db: Session = Depends(get_db)):
-    try:
-        response = await single.get_recipe(db=db, identificator=identificator)
-        # print(RecipeGetResponse(*response))
-    except Exception_404 as ex:
-        _response.status_code = 404
-        return RecipesIdsError(status=404, name=ex.name)
-    return response
+# @router.get("/{identificator}",
+#             response_model=Union[RecipeGetResponse, RecipesIdsError],
+#             response_model_exclude_none=True,
+#             responses={200: {"model": RecipeGetResponse}, 404: {"model": RecipesIdsError}},
+#             status_code=200)
+# async def router_get_recipe(identificator: Union[int, str],
+#                             _response: Response,
+#                             db: Session = Depends(get_db)):
+#     try:
+#         response = await single.get_recipe(db=db, identificator=identificator)
+#         # print(RecipeGetResponse(*response))
+#     except Exception_404 as ex:
+#         _response.status_code = 404
+#         return RecipesIdsError(status=404, name=ex.name)
+#     return response
 
 
 @router.patch("/{identificator}",
@@ -156,7 +156,7 @@ async def router_post_recipes(schema: RecipesPostRequest,
 
 
 @router.get("/top",
-            response_model=Union[TopRecipesGetResponse, TopRecipesIdsError],
+            # response_model=Union[TopRecipesGetResponse, TopRecipesIdsError],
             response_model_exclude_none=True,
             responses={200: {"model": TopRecipesGetResponse}, 404: {"model": TopRecipesIdsError}},
             status_code=200)
@@ -169,7 +169,8 @@ async def router_get_top_recipes(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return TopRecipesIdsError(status=404, name=ex.name)
-    return TopRecipesGetResponse(data=response)
+    return response
+    # return TopRecipesGetResponse(data=response)
 
 
 @router.post("/top",
@@ -228,7 +229,7 @@ async def router_delete_top_recipe(recipe_id: int,
 
 
 @router.get("/random",
-            response_model=Union[RecipesShortListGetResponse, RecipesLongListGetResponse, RecipesIdsError],
+            # response_model=Union[RecipesShortListGetResponse, RecipesLongListGetResponse, RecipesIdsError],
             response_model_exclude_none=True,
             responses={200: {"model": Union[RecipesShortListGetResponse, RecipesLongListGetResponse]},
                        404: {"model": RecipesIdsError}},
@@ -242,7 +243,7 @@ async def router_get_random_recipes(_response: Response,
     except Exception_404 as ex:
         _response.status_code = 404
         return RecipesIdsError(status=404, name=ex.name)
-    return RecipesShortListGetResponse(data=response)
+    return response
     # return RecipesShortListGetResponse(data=response) if q == "short" else RecipesLongListGetResponse(data=response)
 
 # @router.get("/{recipe_id}/similar",
