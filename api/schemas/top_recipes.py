@@ -9,8 +9,13 @@ class TopRecipesGetResponse(BaseModel):
 
 
 class TopRecipesIds(BaseModel):
-    top_recipes: list[BaseIds]
+    top_recipes_ids: list[BaseIds]
 
 
 class TopRecipesIdsError(BaseModel):
-    top_recipes: list[BaseIds]
+    recipe_id: int = None
+    status: int
+    name: str = None
+
+    class Config:
+        orm_mode = True

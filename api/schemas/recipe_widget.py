@@ -21,3 +21,7 @@ class RecipeGetResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class RecipeUpdateRequest(RecipeGetResponse):
+    pass

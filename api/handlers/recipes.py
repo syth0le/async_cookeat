@@ -91,7 +91,8 @@ from api.models.recipes import Recipe
 #
 # async def autocomplete_recipes(self, db: Session):
 #     return "/recipes/autocomplete"
-from api.utils.exceptions import Exception_400, Exception_404
+from api.schemas.recipe_widget import RecipeUpdateRequest
+from api.utils.exceptions import Exception_400, Exception_404, Exception_409
 
 
 class RecipeSingleRepository(BaseRepository):
@@ -107,8 +108,15 @@ class RecipeSingleRepository(BaseRepository):
             raise Exception_404(name=f"Not found recipe with identificator={identificator}")
         return data
 
-    async def patch_recipe(db: Session, identificator: str):
-        return f"/recipes/{identificator}"
+    async def patch_recipe(db: Session, schema: RecipeUpdateRequest, identificator: str):
+        update_data = schema.dict(exclude_unset=True)
+        db.query(Recipe).filter(Recipe.id == identificator). \
+            update(update_data, synchronize_session="fetch")
+        db.commit()
+        updated_recipe = db.query(Recipe).filter_by(id=identificator).first()
+        if updated_recipe is None:
+            raise Exception_404(name=f"Not found recipe with identificator={identificator}")
+        return updated_recipe
 
     async def delete_recipe(db: Session, identificator: str):
 
@@ -122,7 +130,7 @@ class RecipeSingleRepository(BaseRepository):
             raise Exception_404(name=f"Not found recipe with identificator={identificator}")
         db.delete(recipe)
         db.commit()
-        return {"id": creator_id, "status": 200, "name": f"Deleted recipe with identificator={identificator}"}
+        return {"id": identificator, "status": 200, "name": f"Deleted recipe with identificator={identificator}"}
 
     async def get_recipe_by_id(db: Session, recipe_id: int):
         return db.query(Recipe).filter_by(id=recipe_id).first()
@@ -152,31 +160,39 @@ class RecipeSingleRepository(BaseRepository):
         return {"title": title, "message": "deleted"}
 
 
-#
 class RecipeAllRepository(BaseRepository):
 
     async def get_recipes(db: Session, limit: int = 100, skip: int = 0):
-        return db.query(Recipe).offset(skip).limit(limit).all()
+        data = db.query(Recipe).offset(skip).limit(limit).all()
+        if not data:
+            raise Exception_404(name="Not found elements")
+        return data
 
-    async def post_recipes(db: Session, data):
+    async def post_recipes(db: Session, schema):
         temp = list()
-        print(data)
-        for recipe in data.data:
-            print(recipe)
-            print()
-            db_recipe = Recipe(**recipe.dict())
-            db.add(db_recipe)
-            db.commit()
-            db.refresh(db_recipe)
-            # temp.append(recipe["recipe_id"])
-        return f"done post {temp}"
+        errors = list()
+        for elem in schema.data:
+            recipe = Recipe(**elem.dict())
+            try:
+                db.add(recipe)
+                db.commit()
+                db.refresh(recipe)
+            except:
+                errors.append(elem.name)
+            temp.append(elem.name)
+        if errors:
+            raise Exception_409(name=f"Elements: {temp} already exists.")
+        return db.query(Recipe).filter(Recipe.name.in_(temp)).all()
 
     async def get_random_recipes(db: Session, limit: int = 10, skip: int = 0):
-        return db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
+        data = db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
+        if not data:
+            raise Exception_404(name="Not found elements")
+        return data
 
-    async def get_similar_recipes(db: Session, recipe_id: int, limit: int = 100, skip: int = 0):
-        # return await db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
-        return f"/recipes/{recipe_id}/similar"
-
-    async def autocomplete_recipes(self, db: Session):
-        return "/recipes/autocomplete"
+    # async def get_similar_recipes(db: Session, recipe_id: int, limit: int = 100, skip: int = 0):
+    #     # return await db.query(Recipe).order_by(func.random()).offset(skip).limit(limit).all()
+    #     return f"/recipes/{recipe_id}/similar"
+    #
+    # async def autocomplete_recipes(self, db: Session):
+    #     return "/recipes/autocomplete"

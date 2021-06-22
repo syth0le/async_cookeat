@@ -34,7 +34,7 @@ async def router_get_creators(_response: Response,
 @router.post("",
              response_model=Union[CreatorsIds, CreatorsIdsError],
              response_model_exclude_none=True,
-             responses={200: {"model": CreatorsIds}, 404: {"model": CreatorsIdsError}},
+             responses={200: {"model": CreatorsIds}, 409: {"model": CreatorsIdsError}},
              status_code=200)
 async def router_post_creators(schema: CreatorsPostRequest,
                                _response: Response,

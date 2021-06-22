@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from api.handlers.base import BaseRepository
 from api.models.creators import Creators
-from api.schemas.creators import CreatorItem
+from api.schemas.creators import CreatorItem, CreatorUpdateRequest
 from api.utils.exceptions import Exception_404, Exception_409
 
 
@@ -36,7 +36,7 @@ class CreatorsRepository(BaseRepository):
             raise Exception_404(name=f"Not found element with id={creator_id}")
         return data
 
-    async def patch_single_creator(db: Session, schema: CreatorItem, creator_id: int):
+    async def patch_single_creator(db: Session, schema: CreatorUpdateRequest, creator_id: int):
         update_data = schema.dict(exclude_unset=True)
         db.query(Creators).filter(Creators.id == creator_id). \
             update(update_data, synchronize_session="fetch")

@@ -12,9 +12,14 @@ class RecipesShortListGetResponse(BaseModel):
     data: list[RecipeShortItem]
 
 
-class RecipesIds:
-    recipes: list[BaseIds]
+class RecipesIds(BaseModel):
+    recipes_ids: list[BaseIds]
 
 
-class RecipesIdsError:
-    recipes: list[BaseIds]
+class RecipesIdsError(BaseModel):
+    recipe_id: int = None
+    status: int
+    name: str = None
+
+    class Config:
+        orm_mode = True
