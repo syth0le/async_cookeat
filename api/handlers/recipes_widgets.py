@@ -8,7 +8,7 @@ from api.utils.exceptions import Exception_404
 
 
 class RecipeWidgetsRepository(BaseRepository):
-
+    # дописать нормально все Exceptions
     async def get_taste_by_id(db: Session, recipe_id: int):
         data = db.query(Recipe).filter_by(id=recipe_id).first()
         if not data:
