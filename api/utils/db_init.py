@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 load_dotenv(override=True)
 user = os.getenv("POSTGRES_USER")
 password = os.getenv("POSTGRES_PASSWORD")
-postgresserver = os.getenv("POSTGRES_DB")
+postgresserver = os.getenv("POSTGRES_DB_API")
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{user}:{password}@localhost:5432/{postgresserver}"
 
