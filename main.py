@@ -7,8 +7,7 @@ from api.routers.recipes import router as recipes
 from api.routers.creators import router as creators
 from api.routers.utility import router as utility
 # from api.routers.ml_model import router as ml_model
-from auth.auth import router as auth
-# from auth.routers import router as auth
+from auth.routers.users import router as auth
 # from api.routers.meal_plan import router as meal_plan
 from api.utils.db_init import Base, engine, SessionLocal
 
