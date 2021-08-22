@@ -1,6 +1,7 @@
 import sqlalchemy
-from fastapi import APIRouter
-from fastapi_users import models
+from fastapi import APIRouter, Request
+from fastapi_users import models, FastAPIUsers
+from fastapi_users.authentication import JWTAuthentication
 from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 import databases
@@ -13,10 +14,15 @@ load_dotenv(override=True)
 user = os.getenv("POSTGRES_USER")
 password = os.getenv("POSTGRES_PASSWORD")
 postgresserver = os.getenv("POSTGRES_DB")
+SECRET = os.getenv("SECRET")
 
 AUTH_DATABASE_URL = f"postgresql://{user}:{password}@localhost:5432/{postgresserver}"
 
 database = databases.Database(AUTH_DATABASE_URL)
+
+jwt_authentication = JWTAuthentication(
+    secret=SECRET, lifetime_seconds=3600, tokenUrl="auth/jwt/login"
+)
 
 Base: DeclarativeMeta = declarative_base()
 
@@ -55,11 +61,48 @@ users = UserTable.__table__
 user_db = SQLAlchemyUserDatabase(UserDB, database, users)
 
 router = APIRouter(
-    prefix="/auth",
     tags=['auth']
 )
 
+fastapi_users = FastAPIUsers(
+    user_db,
+    [jwt_authentication],
+    User,
+    UserCreate,
+    UserUpdate,
+    UserDB,)
 
-@router.get("")
-async def login():
-    return "login"
+
+def on_after_register(user: UserDB, request: Request):
+    print(f"User {user.id} has registered.")
+
+
+def on_after_forgot_password(user: UserDB, token: str, request: Request):
+    print(f"User {user.id} has forgot their password. Reset token: {token}")
+
+
+def after_verification_request(user: UserDB, token: str, request: Request):
+    print(f"Verification requested for user {user.id}. Verification token: {token}")
+
+
+router.include_router(
+    fastapi_users.get_auth_router(jwt_authentication), prefix="/auth/jwt", tags=["auth"]
+)
+router.include_router(
+    fastapi_users.get_register_router(on_after_register), prefix="/auth", tags=["auth"]
+)
+router.include_router(
+    fastapi_users.get_reset_password_router(
+        SECRET, after_forgot_password=on_after_forgot_password
+    ),
+    prefix="/auth",
+    tags=["auth"],
+)
+router.include_router(
+    fastapi_users.get_verify_router(
+        SECRET, after_verification_request=after_verification_request
+    ),
+    prefix="/auth",
+    tags=["auth"],
+)
+router.include_router(fastapi_users.get_users_router(), prefix="/users", tags=["users"])
