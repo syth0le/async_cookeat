@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import JWTAuthentication
 from fastapi_users.db import SQLAlchemyUserDatabase
@@ -15,6 +17,7 @@ jwt_authentication = JWTAuthentication(
 
 users = UserTable.__table__
 user_db = SQLAlchemyUserDatabase(UserDB, database, users)
+
 Base.metadata.create_all(bind=engine)
 
 fastapi_users = FastAPIUsers(

@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, String, Integer, Column
+from sqlalchemy import ForeignKey, String, Integer, Column, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -10,7 +10,9 @@ class HealthTable(Base):
 
     id = Column(Integer, primary_key=True)
     owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    name = Column(String(50), nullable=False)
+    title = Column(String(50), nullable=False)
+    value = Column(Float, nullable=True)
+    measure = Column(String(50), nullable=True)
 
     owner = relationship("UserTable", back_populates="health")
 

@@ -15,12 +15,14 @@ class UserTable(Base, SQLAlchemyBaseUserTable):
     weight = Column(Float, nullable=True)
     height = Column(Float, nullable=True)
 
-    is_have_subscription = Column(Boolean, default=False) # est' li podpiska
-    is_paid = Column(Boolean, default=False) # zaplatil li za podpisku
-    value_paid = Column(Float, nullable=False) # skolko zaplatil za podpisku
-    is_shared = Column(Boolean, default=False) # (podelilsya li s drugom)
+    is_have_subscription = Column(Boolean, default=False)
+    # est' li podpiska
+    is_paid = Column(Boolean, default=False)  # zaplatil li za podpisku
+    value_paid = Column(Float, default=0)  # skolko zaplatil za podpisku
+    measure = Column(String(40), default="USD")  # denezhnaya edenica
+    is_shared = Column(Boolean, default=False)  # (podelilsya li s drugom)
 
-    health = relationship("SubscriptionTable", back_populates="owner") # ossobennosty zdorovya
+    health = relationship("SubscriptionTable", back_populates="owner")  # ossobennosty zdorovya
     subscriptions = relationship("HealthTable", back_populates="owner")
 
     class Config:
