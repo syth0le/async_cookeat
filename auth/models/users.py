@@ -9,8 +9,8 @@ class UserTable(Base, SQLAlchemyBaseUserTable):
     __tablename__ = "users"
 
     name = Column(String(50))
-    lastname = Column(String(50))
-    phone = Column(String(50))
+    lastname = Column(String(50), nullable=True)
+    phone = Column(String(50), nullable=True)
     age = Column(Integer, nullable=True)
     weight = Column(Float, nullable=True)
     height = Column(Float, nullable=True)

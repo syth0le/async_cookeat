@@ -14,7 +14,6 @@ jwt_authentication = JWTAuthentication(
 )
 
 
-
 users = UserTable.__table__
 user_db = SQLAlchemyUserDatabase(UserDB, database, users)
 

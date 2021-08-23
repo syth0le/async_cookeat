@@ -1,37 +1,40 @@
 from typing import Optional
 
 from fastapi_users import models
+from pydantic import EmailStr
 
 
 class User(models.BaseUser):
-    name: str
-    lastname: str
-    phone: str
+    #response after creating and verify and me and update
+    name: Optional[str]
+    lastname: Optional[str]
+    phone: Optional[str]
     age: Optional[int]
     weight: Optional[float]
     height: Optional[float]
-    is_have_subscription: Optional[bool]
-    is_paid: Optional[bool]
+    is_have_subscription: Optional[bool] = False
+    is_paid: Optional[bool] = False
     value_paid: Optional[float]
-    measure: Optional[float]
-    is_shared: Optional[bool]
+    measure: Optional[str]
+    is_shared: Optional[bool] = False
 
 
-class UserCreate(models.BaseUserCreate):
+class UserCreate(models.BaseUs  erCreate):
     name: str
-    lastname: str
-    phone: str
+    lastname: Optional[str]
+    phone: Optional[str]
     age: Optional[int]
     weight: Optional[float]
     height: Optional[float]
-    is_have_subscription: Optional[bool]
-    is_paid: Optional[bool]
-    value_paid: Optional[float]
-    measure: Optional[float]
-    is_shared: Optional[bool]
+    is_have_subscription: Optional[bool] = False
+    is_paid: Optional[bool] = False
+    value_paid: Optional[float] = 0
+    measure: Optional[str] = "USD"
+    is_shared: Optional[bool] = False
 
 
 class UserUpdate(User, models.BaseUserUpdate):
+    # request update
     pass
 
 
