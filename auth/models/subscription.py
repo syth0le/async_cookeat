@@ -1,4 +1,5 @@
 from enum import Enum
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import Enum as pgEnum, Column, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship
 
@@ -16,8 +17,8 @@ class SubType(Enum):
 class SubscriptionTable(Base):
     __tablename__ = "subscriptions"
 
-    id = Column(Integer, primary_key=True, index=True)
-    owner_id = Column(String(50), ForeignKey("users.id"), nullable=False, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    owner_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     type_subscription = Column(pgEnum(SubType), default=False)
     # value(deneg skolko)
     # amount(value)

@@ -14,6 +14,7 @@ postgresserver = os.getenv("POSTGRES_DB_AUTH")
 SECRET = os.getenv("SECRET")
 
 AUTH_DATABASE_URL = f"postgresql://{user}:{password}@localhost:5432/{postgresserver}"
+print(AUTH_DATABASE_URL)
 
 database = databases.Database(AUTH_DATABASE_URL)
 

@@ -807,12 +807,31 @@ false Zulu
 13158||-9223372036854775808|U|G
 13158||10|U|G</Grants>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>789</IntrospectionStateNumber>
+      <IntrospectionStateNumber>821</IntrospectionStateNumber>
       <Current>1</Current>
     </database>
     <database id="3" parent="1" name="cookeat">
       <ObjectId>16395</ObjectId>
+      <Grants>11||10|C|G
+11||-9223372036854775808|U|G
+11||10|U|G
+2200||-9223372036854775808|C|G
+2200||10|C|G
+2200||-9223372036854775808|U|G
+2200||10|U|G
+13158||10|C|G
+13158||-9223372036854775808|U|G
+13158||10|U|G</Grants>
       <Owner>postgres</Owner>
+      <IntrospectionStateNumber>820</IntrospectionStateNumber>
+      <Relations>sequence|table|16401|16403|1
+sequence|table|16448|16450|1
+sequence|table|16471|16473|1
+sequence|table|16481|16483|1
+sequence|table|16506|16508|1
+sequence|table|16536|16538|1
+sequence|table|16577|16579|1
+</Relations>
     </database>
     <database id="4" parent="1" name="meal_cookeat">
       <ObjectId>16660</ObjectId>
@@ -889,7 +908,7 @@ false Zulu
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>790</IntrospectionStateNumber>
+      <IntrospectionStateNumber>822</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <extension id="21" parent="2" name="plpgsql">
@@ -989,79 +1008,120 @@ false Zulu
       <HandlerId>335</HandlerId>
       <Type>index</Type>
     </access-method>
-    <table id="33" parent="20" name="users">
-      <ObjectId>16668</ObjectId>
+    <schema id="33" parent="3" name="information_schema">
+      <ObjectId>13158</ObjectId>
+      <StateNumber>293</StateNumber>
       <Owner>postgres</Owner>
-      <StateNumber>786</StateNumber>
-    </table>
-    <column id="34" parent="33" name="id">
-      <Position>1</Position>
-      <DataType>uuid|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>2950</TypeId>
-    </column>
-    <column id="35" parent="33" name="email">
-      <Position>2</Position>
-      <DataType>varchar(320)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="36" parent="33" name="hashed_password">
-      <Position>3</Position>
-      <DataType>varchar(72)|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <column id="37" parent="33" name="is_active">
-      <Position>4</Position>
-      <DataType>boolean|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="38" parent="33" name="is_superuser">
-      <Position>5</Position>
-      <DataType>boolean|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <column id="39" parent="33" name="is_verified">
-      <Position>6</Position>
-      <DataType>boolean|0s</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>786</StateNumber>
-      <TypeId>16</TypeId>
-    </column>
-    <index id="40" parent="33" name="users_pkey">
-      <ObjectId>16671</ObjectId>
-      <StateNumber>786</StateNumber>
-      <ColNames>id</ColNames>
-      <Unique>1</Unique>
-      <Primary>1</Primary>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>0</CollationIds>
-      <ClassIds>10064</ClassIds>
-    </index>
-    <index id="41" parent="33" name="ix_users_email">
-      <ObjectId>16673</ObjectId>
-      <StateNumber>787</StateNumber>
-      <ColNames>email</ColNames>
-      <Unique>1</Unique>
-      <AccessMethodId>403</AccessMethodId>
-      <CollationIds>100</CollationIds>
-      <CollationNames>default</CollationNames>
-      <ClassIds>3126</ClassIds>
-    </index>
-    <key id="42" parent="33" name="users_pkey">
-      <ObjectId>16672</ObjectId>
-      <StateNumber>786</StateNumber>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
-    </key>
+    </schema>
+    <schema id="34" parent="3" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <Comment>system catalog schema</Comment>
+      <StateNumber>286</StateNumber>
+      <Owner>postgres</Owner>
+    </schema>
+    <schema id="35" parent="3" name="public">
+      <ObjectId>2200</ObjectId>
+      <Comment>standard public schema</Comment>
+      <StateNumber>287</StateNumber>
+      <Owner>postgres</Owner>
+      <Current>1</Current>
+    </schema>
+    <extension id="36" parent="3" name="plpgsql">
+      <ObjectId>13428</ObjectId>
+      <Comment>PL/pgSQL procedural language</Comment>
+      <StateNumber>439</StateNumber>
+      <Version>1.0</Version>
+      <SchemaName>pg_catalog</SchemaName>
+      <SchemaId>11</SchemaId>
+    </extension>
+    <language id="37" parent="3" name="c">
+      <ObjectId>13</ObjectId>
+      <Comment>dynamically-loaded C functions</Comment>
+      <StateNumber>1</StateNumber>
+      <ValidatorName>fmgr_c_validator</ValidatorName>
+      <ValidatorSchema>pg_catalog</ValidatorSchema>
+    </language>
+    <language id="38" parent="3" name="internal">
+      <ObjectId>12</ObjectId>
+      <Comment>built-in functions</Comment>
+      <StateNumber>1</StateNumber>
+      <ValidatorName>fmgr_internal_validator</ValidatorName>
+      <ValidatorSchema>pg_catalog</ValidatorSchema>
+    </language>
+    <language id="39" parent="3" name="plpgsql">
+      <ObjectId>13432</ObjectId>
+      <Comment>PL/pgSQL procedural language</Comment>
+      <StateNumber>439</StateNumber>
+      <Trusted>1</Trusted>
+      <HandlerName>plpgsql_call_handler</HandlerName>
+      <HandlerSchema>pg_catalog</HandlerSchema>
+      <InlineHandlerName>plpgsql_inline_handler</InlineHandlerName>
+      <InlineHandlerSchema>pg_catalog</InlineHandlerSchema>
+      <ValidatorName>plpgsql_validator</ValidatorName>
+      <ValidatorSchema>pg_catalog</ValidatorSchema>
+    </language>
+    <language id="40" parent="3" name="sql">
+      <ObjectId>14</ObjectId>
+      <Comment>SQL-language functions</Comment>
+      <StateNumber>1</StateNumber>
+      <Trusted>1</Trusted>
+      <ValidatorName>fmgr_sql_validator</ValidatorName>
+      <ValidatorSchema>pg_catalog</ValidatorSchema>
+    </language>
+    <access-method id="41" parent="3" name="heap">
+      <ObjectId>2</ObjectId>
+      <Comment>heap table access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.heap_tableam_handler</Handler>
+      <HandlerId>3</HandlerId>
+    </access-method>
+    <access-method id="42" parent="3" name="btree">
+      <ObjectId>403</ObjectId>
+      <Comment>b-tree index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.bthandler</Handler>
+      <HandlerId>330</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="43" parent="3" name="hash">
+      <ObjectId>405</ObjectId>
+      <Comment>hash index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.hashhandler</Handler>
+      <HandlerId>331</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="44" parent="3" name="gist">
+      <ObjectId>783</ObjectId>
+      <Comment>GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.gisthandler</Handler>
+      <HandlerId>332</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="45" parent="3" name="gin">
+      <ObjectId>2742</ObjectId>
+      <Comment>GIN index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.ginhandler</Handler>
+      <HandlerId>333</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="46" parent="3" name="spgist">
+      <ObjectId>4000</ObjectId>
+      <Comment>SP-GiST index access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.spghandler</Handler>
+      <HandlerId>334</HandlerId>
+      <Type>index</Type>
+    </access-method>
+    <access-method id="47" parent="3" name="brin">
+      <ObjectId>3580</ObjectId>
+      <Comment>block range index (BRIN) access method</Comment>
+      <StateNumber>1</StateNumber>
+      <Handler>pg_catalog.brinhandler</Handler>
+      <HandlerId>335</HandlerId>
+      <Type>index</Type>
+    </access-method>
   </database-model>
 </dataSource>
