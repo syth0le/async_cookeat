@@ -8,6 +8,7 @@ from api.routers.creators import router as creators
 from api.routers.utility import router as utility
 # from api.routers.ml_model import router as ml_model
 from auth.routers.users import router as auth
+from meal_plan.meal_plan import router as meal_plan
 # from api.routers.meal_plan import router as meal_plan
 from api.utils.db_init import Base, engine, SessionLocal
 
@@ -22,7 +23,7 @@ app.include_router(utility)
 
 # app.include_router(ml_model)
 app.include_router(auth)
-# app.include_router(meal_plan)
+app.include_router(meal_plan)
 
 
 # @app.on_event("startup")
