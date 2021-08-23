@@ -19,7 +19,7 @@ class User(models.BaseUser):
     is_shared: Optional[bool] = False
 
 
-class UserCreate(models.BaseUs  erCreate):
+class UserCreate(models.BaseUserCreate):
     name: str
     lastname: Optional[str]
     phone: Optional[str]

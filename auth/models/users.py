@@ -15,8 +15,7 @@ class UserTable(Base, SQLAlchemyBaseUserTable):
     weight = Column(Float, nullable=True)
     height = Column(Float, nullable=True)
 
-    is_have_subscription = Column(Boolean, default=False)
-    # est' li podpiska
+    is_have_subscription = Column(Boolean, default=False)  # est' li podpiska
     is_paid = Column(Boolean, default=False)  # zaplatil li za podpisku
     value_paid = Column(Float, default=0)  # skolko zaplatil za podpisku
     measure = Column(String(40), default="USD")  # denezhnaya edenica
