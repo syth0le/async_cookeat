@@ -14,7 +14,7 @@ jwt_authentication = JWTAuthentication(
 users = UserTable.__table__
 user_db = SQLAlchemyUserDatabase(UserDB, database, users)
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 fastapi_users = FastAPIUsers(
     user_db,

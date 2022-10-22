@@ -2,7 +2,8 @@ from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import Boolean, Column, String, Integer, Float
 from sqlalchemy.orm import relationship
 
-from auth.utils.db_init import Base
+from api.utils.db_init import Base
+# from auth.utils.db_init import Base
 
 
 class UserTable(Base, SQLAlchemyBaseUserTable):

@@ -5,7 +5,8 @@ from auth.handlers.users import on_after_register, on_after_forgot_password, aft
 from auth.utils.db_init import database
 
 router = APIRouter(
-    tags=['auth']
+    tags=['auth'],
+    responses={404: {"description": "Not found"}}
 )
 
 router.include_router(
